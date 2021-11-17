@@ -1,0 +1,291 @@
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje"></msg-component>
+			<loading-service></loading-service>
+			<div class="row"  style="margin-top:15px;margin-bottom:10px;">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+					<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Viajes</h4>
+					<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Viajes</h6>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:right;">
+					<button type="button" class="btn btn-lg font-regular button-done " routerLink="/travel-create">
+						<img src="assets/images/add.svg" width="20px"/>&nbsp;Nuevo
+					</button>
+				</div>
+			</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+							<div class="row">	
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input (keypress)="keyPressNumber($event)" type="text" class="form-control filtro-busqueda" id="nro" name="nro" [(ngModel)]="nro" maxlength="8" style="text-transform:uppercase;">
+										<label for="nro">Nro.Viaje</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="linea" name="linea" [(ngModel)]="linea" maxlength="50" style="text-transform:uppercase;">
+										<label for="nombre">Linea</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="date" class="form-control filtro-busqueda" id="fecha" name="fecha" [(ngModel)]="fecha">
+										<label for="fecha">Fecha de salida</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="parada" name="parada" [(ngModel)]="parada" maxlength="20" style="text-transform:uppercase;">
+										<label for="parada">Parada</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="placa" name="placa" [(ngModel)]="placa" maxlength="8" style="text-transform:uppercase;">
+										<label for="placa">Placa del vehiculo</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="chofer" name="chofer" [(ngModel)]="chofer" maxlength="30" style="text-transform:uppercase;">
+										<label for="chofer">Datos del chofer</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<select class="form-select filtro-busqueda" id="type" name="type" aria-label="Seleccione el tipo" [(ngModel)]="type">
+											<option *ngFor="let item of listTypes let i = index;" [value]="item.value">{{item.name}}</option>
+										</select>
+										<label for="type">Tipo ruta</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<select class="form-select filtro-busqueda" id="status" name="status" aria-label="Seleccione el estatus" [(ngModel)]="status">
+											<option *ngFor="let item of listStatus let i = index;" [value]="item.value">{{item.name}}</option>
+										</select>
+										<label for="status">Estatus</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-12 col-12" style="text-align:right;margin-top:5px;">
+									<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+									<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">#</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">LINEA</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">TARIFAS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">TIPO</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">FECHA/HORA</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">VEHICULO</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">CHOFERES</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;">EMBARQUE</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center">DISP</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center">OCUP</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;">ESTATUS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listRegister let i = index;">
+										<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{item.sequence}}
+										</td>
+										<td data-title="LINEA" *ngIf="item.line_name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{item.line_name}}
+										</td>
+										<td data-title="LINEA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.line_name==null">
+													
+										</td>
+										<td data-title="TARIFAS" *ngIf="item.fares!=null && item.fares.length!=0" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											<div *ngFor="let item1 of item.fares let j = index;">
+												<label>{{item1.start_stop_code}}&nbsp;-{{item1.destination_stop_code}}</label><br>
+												<label  style="margin-bottom:15px;">Tarifa:&nbsp;{{item1.formatted_amount}}</label>
+											</div>
+										</td>
+										<td data-title="TARIFAS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.fares==null || item.fares.length==0">
+													
+										</td>
+										<td data-title="TIPO" *ngIf="item.formatted_type!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{item.formatted_type}}<br>
+										</td>
+										<td data-title="TIPO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.formatted_type==null">
+													
+										</td>
+										<td data-title="FECHA/HORA" *ngIf="item.formatted_departure_date!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;<label>{{item.formatted_departure_date}}</label><br>
+										</td>
+										<td data-title="FECHA/HORA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.formatted_departure_date==null">
+											&nbsp;		
+										</td>
+										<td data-title="VEHICULO" *ngIf="item.vehicle_license_plate!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{item.vehicle_license_plate}}
+										</td>
+										<td data-title="VEHICULO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.vehicle_license_plate==null">
+											&nbsp;		
+										</td>
+										<td data-title="CHOFERES" *ngIf="item.drivers!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;padding-top:0px;" scope="row">
+											<div *ngFor="let item1 of item.drivers let j = index;" style="margin-bottom:5px;">
+												<label *ngIf="item1.name!=null" style="margin-top:0px;"><b class="font-bold" style="margin-top:0px;">Nombre:&nbsp;</b>{{item1.name}}</label><br *ngIf="item1.name!=null">
+												&nbsp;<label *ngIf="item1.id_doc!=null" style="margin-top:0px;"><b class="font-bold" style="margin-top:0px;">RIF/CI:&nbsp;</b>{{item1.id_doc}}</label><br *ngIf="item1.id_doc!=null">
+											</div>
+										</td>
+										<td data-title="CHOFERES" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.drivers==null">
+												&nbsp;	
+										</td>
+										<td data-title="PUERTA" *ngIf="item.boarding_gate!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+											&nbsp;{{item.boarding_gate}}
+										</td>
+										<td data-title="PUERTA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;"scope="row" *ngIf="item.boarding_gate==null">
+													&nbsp;
+										</td>
+										<td data-title="DISP" *ngIf="item.seats_available!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;color:#4caf50;" scope="row">
+											&nbsp;{{item.seats_available}}
+										</td>
+										<td data-title="DISP" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;"scope="row" *ngIf="item.seats_available==null">
+												&nbsp;	
+										</td>
+										<td data-title="OCUP" *ngIf="item.ocup!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;color:#f44336;" scope="row">
+											&nbsp;{{item.ocup}}
+										</td>
+										<td data-title="OCUP" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;"scope="row" *ngIf="item.ocup==null">
+													
+										</td>
+										<td data-title="ESTATUS" *ngIf="item.formatted_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row">
+											{{item.formatted_status}}
+										</td>
+										<td data-title="ESTATUS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;"scope="row" *ngIf="item.formatted_status==null">
+													
+										</td>
+										<td style="text-align:right;">
+											<div class="btn-group" role="group" style="padding-left:0px;padding-right:0px;margin-bottom:5px;text-align:right;">
+												<div class="dropdown" *ngIf="item.actions!=null && item.actions.length!=0">
+													<button class="btn btn-secondary dropdown-toggle" type="button" name="dropdownName{{i}}" id="dropdownMenu{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+														<img src="assets/images/add.svg" width="20px"/>
+													</button>
+													<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+														<li (click)="selectedAction(item,item1)" style="cursor:pointer;"  *ngFor="let item1 of item.actions; let j = index;">
+															<a class="dropdown-item" style="text-transform:uppercase;">{{item1.functionality_detail}}</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>	
+		</div>
+	</main>
+
+<div class="modal" tabindex="-1" id="modalDeleteTravel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Eliminar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea eliminar el viaje de la linea  <b class="font-bold">{{dataSelected.line_name}}</b> que tiene salida el <b class="font-bold">{{dataSelected.formatted_departure_date}}&nbsp;</b>  y tiene un total de asientos disponibles de <b class="font-bold">{{dataSelected.seats_available}}&nbsp;</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="deleteData()">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modelPusblishTravel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Publicar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea publicar el viaje para venta de la linea  <b class="font-bold">{{dataSelected.line_name}}</b> que tiene salida el <b class="font-bold">{{dataSelected.formatted_departure_date}}&nbsp;</b>  y tiene un total de asientos disponibles de <b class="font-bold">{{dataSelected.seats_available}}&nbsp;</b></p>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-success" (click)="publishData()">Publicar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalInactivateTravel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Suspender</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea suspender el viaje de la linea  <b class="font-bold">{{dataSelected.line}}</b> que tiene salida el <b class="font-bold">{{dataSelected.date}}&nbsp;</b> a las <b class="font-bold">{{dataSelected.schedule}}&nbsp;</b> y tiene un total de asientos disponibles de <b class="font-bold">{{dataSelected.disp}}&nbsp;</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="inactiveData()">Suspender</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalCancelTravel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Cancelar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea cancelar el viaje de la linea  <b class="font-bold">{{dataSelected.line}}</b> que tiene salida el <b class="font-bold">{{dataSelected.date}}&nbsp;</b> a las <b class="font-bold">{{dataSelected.schedule}}&nbsp;</b> y tiene un total de asientos disponibles de <b class="font-bold">{{dataSelected.disp}}&nbsp;</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="cancelData()">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalCompletedTravel">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Completar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null">Desea completar el viaje de la linea  <b class="font-bold">{{dataSelected.line}}</b> que salió  el <b class="font-bold">{{dataSelected.date}}&nbsp;</b> a las <b class="font-bold">{{dataSelected.schedule}}&nbsp;</b> y tenía un total de asientos disponibles de <b class="font-bold">{{dataSelected.disp}}&nbsp;</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-success" (click)="completeData()">Completar</button>
+			</div>
+		</div>
+	</div>
+</div>

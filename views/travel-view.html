@@ -1,0 +1,86 @@
+<div class="fixed-sn" >
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component>
+			<loading-service></loading-service>
+			<div class="row"  style="margin-top:15px;margin-bottom:10px;">
+    			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+    				<h2 class="Poppins-light" style="margin-bottom:0px;">{{title}}</h2>
+					<h6 class="Poppins-bold titulo1" style="margin-top:0px;"></h6>
+    			</div>
+    		</div>
+			<form class="card" style="padding:15px;"id="form2">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+						<p class="Poppins-regular" style="text-align:left;margin-top:15px;">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="ruta!=null"><b class="Poppins-bold titulo2">Ruta:&nbsp;</b>{{ruta}} </label><br *ngIf="ruta!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="linea!=null"><b class="Poppins-bold titulo2">Linea:&nbsp;</b>{{linea}}</label><br  *ngIf="linea!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="conductor!=null"><b class="Poppins-bold titulo2">Conductor:&nbsp;</b>{{conductor}}</label><br  *ngIf="conductor!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="phone!=null"><b class="Poppins-bold titulo2">Automovil:&nbsp;</b>{{auto}}</label><br  *ngIf="auto!=null">										
+						</p>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+						<p class="Poppins-regular" style="text-align:left;margin-top:15px;">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="fecha_salida!=null"><b class="Poppins-bold titulo2">Fecha/Hora de salida:&nbsp;</b>{{fecha_salida}} </label><br *ngIf="fecha_salida!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="fecha_vencimiento!=null"><b class="Poppins-bold titulo2">Fecha/Hora de vencimiento:&nbsp;</b>{{fecha_vencimiento}}</label><br  *ngIf="fecha_vencimiento!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="count!=null"><b class="Poppins-bold titulo2">Cant.Máx.Pasajeros:&nbsp;</b>{{count}}</label><br  *ngIf="count!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="disponibles!=null"><b class="Poppins-bold titulo2">Asientos disponibles:&nbsp;</b>{{disponibles}}</label><br  *ngIf="disponibles!=null">										
+						</p>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-top:15px">
+						<div  style="border:1px solid #cfd8dc;padding:15px;">
+							<h6 class="Poppins-bold titulo1" style="margin-top:0px;text-align:center;">Pasajeros</h6>
+							<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;" *ngIf="pasajeros!=null && pasajeros.length!=0">
+								<table id="table" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+											<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">R.I.F/C.I</th>
+											<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Nombre</th>
+											<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Teléfono</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of pasajeros let i = index;">
+											<td data-title="#" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;&nbsp;{{(i+1)}}
+											</td>
+											<td data-title="NOMBRE" *ngIf="item.name!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												{{item.name}}
+											</td>
+											<td data-title="NOMBRE" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.name==null">
+														
+											</td>
+											<td data-title="R.I.F/C.I" *ngIf="item.doc!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												{{item.doc}}
+											</td>
+											<td data-title="R.I.F/C.I" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.doc==null">
+														
+											</td>
+											<td data-title="TLF" *ngIf="item.phone!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												{{item.phone}}
+											</td>
+											<td data-title="TLF" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.phone==null">
+														
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="pasajeros==null || pasajeros.length==0">
+								<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay pasajeros en este viaje</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+						<button type="button" class="btn btn-light waves-effect d-none d-sm-inline-block Poppins-regular"(click)="back()"><i class="fa fa-undo"></i>Regresar</button>
+						<button type="submit" class="btn botonPrincipal waves-effect Poppins-regular" (click)="print()"><i class="fa fa-print"></i>&nbsp;Imprimir</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</main>
+</div>
