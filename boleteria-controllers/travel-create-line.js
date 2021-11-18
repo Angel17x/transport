@@ -25,8 +25,9 @@
 		this.imagenCargando="assets/images/loading.gif";
 		this.listTypes=[{value:"LONG_ROUTE",name:"Ruta Larga"},{value:"SHORT_ROUTE",name:"Ruta Corta"}]
 		this.type=null;
+		this.monto_tasa=undefined;
 		this.lineaSelected=null;
-		this.lineaSelectedShow=null;
+		this.lineaSelectedShow=null
 		this.listTarifasSelected=[];
 		this.capacidad_mayor=0;
 		this.vehicleSelected=null;
@@ -37,6 +38,8 @@
 		this.pagingActualVehicle={};
 		this.listVehicles=[];
 		this.vehicle_buscar=null;
+		this.name_line_user = this.service.getUserName();
+	
 		
 		this.rutaSelected=null;
 		this.rutaSelectedShow=null;
@@ -187,6 +190,7 @@
 				parametros="&"+parametros;
 			}
 		}
+	
 		let querys="?type=PAGINATE"+parametros;
 		this.mostrarCargando=true;
 		let request = this.service.callServicesHttp("route-line-report", querys, this.jsonFilterRoute);
@@ -292,8 +296,13 @@
 		this.jsonFilterRoute.active=true;
 		this.callServicesRuta(1,"&offset=0&limit="+this.detallePorPaginaRuta);
 	}
+
+	app.TravelCreateComponent.prototype.translateTexto=function(data){
+		return _(data).toUpperCase();
+	}
 	app.TravelCreateLineComponent.prototype.selectedRuta=function(item){
 		if(item!=null){
+			
 			$("#modalRuta").modal("hide");
 			this.rutaSelected=item;
 			if(item.hasOwnProperty("stops")){
@@ -305,6 +314,9 @@
 								this.rutaSelectedShow=this.rutaSelectedShow+item.stops[i].code;
 							}else{
 								this.rutaSelectedShow=this.rutaSelectedShow+item.stops[i].code+" - ";
+								this.type= item.type == 'SHORT_ROUTE' ? 'RUTA CORTA' : 'RUTA LARGA' 
+								this.monto_tasa = item.short_route_rate != undefined ? `${item.short_route_rate.toFixed(2)} ${item.short_route_rate_currency}` : undefined
+								this.getMontoTaza()
 							}
 						}
 					}
@@ -312,6 +324,50 @@
 			}
 		}
 	}
+	app.TravelCreateLineComponent.prototype.getMontoTaza=function(){
+		return this.monto_tasa
+	}
+
+	app.TravelCreateLineComponent.prototype.deleteTarifasSelected=function(data,index){
+		if(this.listTarifas!=null && this.listTarifas.length!=0){
+			for(var i=0;i<this.listTarifas.length;i++){
+				if(this.listTarifas[i]!=null){
+					if(this.listTarifas[i].id==data.id){
+						this.listTarifas[i].classSelected=null;
+						break;
+					}
+				}
+			}
+			try{
+				var provi = this.listTarifasSelected.slice(index + 1);
+				this.listTarifasSelected = this.listTarifasSelected.slice(0, index);
+				this.listTarifasSelected = this.listTarifasSelected.concat(provi);
+			}catch(er){
+			}
+		}
+	}
+	app.TravelCreateLineComponent.prototype.deleteChoferesSelected=function(data,index){
+		if(this.listChoferes!=null && this.listChoferes.length!=0){
+			for(var i=0;i<this.listChoferes.length;i++){
+				if(this.listChoferes[i]!=null){
+					if(this.listChoferes[i].id==data.id){
+						this.listChoferes[i].classSelected=null;
+						break;
+					}
+				}
+			}
+			try{
+				var provi = this.listChoferesSelected.slice(index + 1);
+				this.listChoferesSelected = this.listChoferesSelected.slice(0, index);
+				this.listChoferesSelected = this.listChoferesSelected.concat(provi);
+			}catch(er){
+			}
+		}
+	}
+
+
+
+
 	app.TravelCreateLineComponent.prototype.getCantidadSelectedVehicle=function(data){
 		if (!(data == null || data == undefined || data == "")) {
 			this.detallePorPaginaVehicle = data.detalles;
@@ -491,10 +547,13 @@
 			return;
 		}
 		this.jsonFilterTarifa={};
-		this.jsonFilterTarifa.vehicle_type_id=this.vehicleSelected.vehicle_type_id;
+		this.jsonFilterTarifa.vehicle_type_id=[this.vehicleSelected.vehicle_type_id];
 		if(!(this.codigo_ciudad==null || this.codigo_ciudad==undefined || this.codigo_ciudad=="" || this.codigo_ciudad=="null")){
 			this.jsonFilterTarifa.destination_stop=this.codigo_ciudad.trim();
 		}
+	
+	
+		
 		this.callServicesTarifa(1, "&limit="+this.detallePorPaginaTarifa);
 	}
 	app.TravelCreateLineComponent.prototype.getCantidadSelectedTarifa=function(data){
@@ -515,6 +574,7 @@
 		if (this.pagingActualTarifa.hasOwnProperty('first_page')) {
 			if (!(this.pagingActualTarifa.first_page == null || this.pagingActualTarifa.first_page == undefined || this.pagingActualTarifa.first_page == "")) {
 				this.callServicesTarifa(data, this.pagingActualTarifa.first_page);
+				
 			}
 		}
 	}
@@ -568,11 +628,15 @@
 		if(data==null || data==undefined || data==""){
 			this.listTarifas=[];
 			this.mensajeServicio=mensajeAll;
+			
 		}else{
 			if(data.status_http==200){
 				if(data.hasOwnProperty("count")){
 					if(data.count==null || data.count==undefined || data.count==0){
 						this.listTarifas=[];
+						this.mensaje='no existen tarifas para este vehiculo'
+						this.msg.error()
+						return
 					}else{
 						this.pagingActualTarifa = {};
 						this.pagingActualTarifa.count = data.count;

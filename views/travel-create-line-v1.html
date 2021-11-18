@@ -11,25 +11,23 @@
 		</div>
 		<form id="form-travel-create" style="margin-top:15px;">
 			<div class="row">
+				
 				<div class="col-lg-3 col-md-3 col-sm-6 col-12">
-					<div style="margin-top:15px;">
-						<div class="form-floating"  (click)="openModalVehicle()" *ngIf="save">
-							<input  type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="vehicleSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
-							<label for="vehicle">Vehículo seleccionado</label>
-						</div>
-					</div>
+					
 					<div style="margin-top:15px;">
 						<div class="form-floating"  (click)="openModalRuta()" *ngIf="save">
-							<input  type="text" class="form-control" id="ruta" name="ruta" [(ngModel)]="rutaSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
+							<input  type="text" class="form-control" id="ruta" name="ruta" [(ngModel)]="rutaSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;" value="{{ruta}}">
 							<label for="ruta">Ruta seleccionada</label>
 						</div>
 					</div>
 					<div style="margin-top:15px;">
-						<div class="form-floating">
-							<select class="form-select filtro-busqueda" id="type" name="type" aria-label="Seleccione el tipo" [(ngModel)]="type">
-								<option *ngFor="let item of listTypes let i = index;" [value]="item.value">{{item.name}}</option>
-							</select>
-							<label for="type">Tipo de viaje</label>
+						<label for="type">Tipo de viaje</label>
+						<h6 class="font-bold">{{type}}</h6>
+					</div>
+					<div style="margin-top:15px;">
+						<div class="form-floating"  (click)="openModalVehicle()" *ngIf="save">
+							<input  type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="vehicleSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
+							<label for="vehicle">Vehículo seleccionado</label>
 						</div>
 					</div>
 					<div style="margin-top:15px;">
@@ -123,20 +121,51 @@
 						<h6 class="font-bold" style="color:#d0d6e2">No hay choferes</h6>
 					</div>
 				</div>
+				
+				
 				<div class="col-lg-3 col-md-3 col-sm-6 col-12">
 					<div *ngIf="listTarifasSelected!=null && listTarifasSelected.length!=0 && listChoferesSelected!=null && listChoferesSelected.length!=0">
 						<h6 style="text-decoration:underline;">Tarifas seleccionadas</h6>
 						<div *ngFor="let item of listTarifasSelected let i = index;" style="margin-top:5px;">
 							<div style="padding:5px;border:1px solid #bebebe; border-radius:5px">
-								<label>{{item.start_stop_code}} -{{item.destination_stop_code}}</label><br>
-								&nbsp;{{item.amount}}&nbsp;{{item.currency}}
+								<div class="row">
+									<div class="col-10">
+										<div style="margin-right:auto;">
+											<label>{{item.start_stop_code}} -{{item.destination_stop_code}}</label><br>
+										&nbsp;{{item.amount}}&nbsp;{{item.currency}}
+										</div>
+									</div>
+									<div class="col-2">
+										<div style="width:25px;" *ngIf="save">
+											<a (click)="deleteTarifasSelected(item,i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<h6 style="text-decoration:underline;margin-top:20px;">Choferes seleccionados</h6>
 						<div *ngFor="let item of listChoferesSelected let i = index;" style="margin-top:5px;">
 							<div style="padding:5px;border:1px solid #bebebe; border-radius:5px">
-								<label>{{item.name}} -{{item.id_doc}}</label>
+								<div class="row">
+									<div class="col-10">
+										<div style="margin-right:auto;">
+											<label>{{item.name}} - {{item.id_doc}}</label>
+										</div>
+									</div>
+									<div class="col-2">
+										<div style="width:25px;">
+											<a (click)="deleteChoferesSelected(item,i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+										</div>
+									</div>
+								</div>
+								
+								
 							</div>
+							
+						</div>
+						<div style="margin-top:15px;" *ngIf="getMontoTaza() != undefined">
+						<label for="type">Monto de la tasa</label>
+						<h6 class="font-bold" id="monto_taza">{{getMontoTaza()}}</h6>
 						</div>
 						<div style="text-align:right;">
 							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:5px;font-size:14px;" (click)="back()">Regresar</button>
@@ -353,7 +382,7 @@
 										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Trayectos</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody style="overflow:scroll;">
 									<tr *ngFor="let item of listRutas let i = index;" style="cursor:pointer;" (click)="selectedRuta(item)">
 										<td data-title="COD" *ngIf="item.name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
 											{{item.name}}
