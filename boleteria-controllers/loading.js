@@ -14,7 +14,7 @@
 		]
 	});
 	app.LoadingAppComponent.prototype.ngOnInit=function(){
-		localStorage.setItem("access_token","95eeff30-487e-11ec-932e-19f0cea3f63b");
+		localStorage.setItem("access_token","b2644900-4954-11ec-8fe6-81d43a31db0c");
 		this.imagen_src="assets/images/loading.gif";
 		this.menu=null;
 		this.dataShow = _('message_dflt_55');;

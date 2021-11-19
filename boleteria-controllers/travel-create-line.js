@@ -25,7 +25,7 @@
 		this.imagenCargando="assets/images/loading.gif";
 		this.listTypes=[{value:"LONG_ROUTE",name:"Ruta Larga"},{value:"SHORT_ROUTE",name:"Ruta Corta"}]
 		this.type=null;
-		this.monto_tasa=undefined;
+		this.monto_taza=undefined;
 		this.lineaSelected=null;
 		this.lineaSelectedShow=null
 		this.listTarifasSelected=[];
@@ -37,10 +37,11 @@
 		this.detallePorPaginaVehicle=10;
 		this.pagingActualVehicle={};
 		this.listVehicles=[];
+		this.dataFilter=[];
 		this.vehicle_buscar=null;
 		this.name_line_user = this.service.getUserName();
-	
 		
+		this.rutaTipo=null
 		this.rutaSelected=null;
 		this.rutaSelectedShow=null;
 		this.totalPageRuta=1;
@@ -50,7 +51,8 @@
 		this.listRutas=[];
 		this.ruta_buscar=null;
 		this.codigo_ciudad=null;
-		
+		this.stops=[]
+
 		this.pagingActualTarifa={};
 		this.totalPageTarifa=1;
 		this.detallePorPaginaTarifa=10;
@@ -302,9 +304,17 @@
 	}
 	app.TravelCreateLineComponent.prototype.selectedRuta=function(item){
 		if(item!=null){
-			
+			this.vehicleSelected=[];
+			this.vehicleSelectedShow=[];
+			this.listTarifas=[];
+			this.listTarifasSelected=[];
+			this.listChoferes=[];
+			this.listChoferesSelected=[];
+			this.dataFilter=[];
+			this.stops=[]
 			$("#modalRuta").modal("hide");
 			this.rutaSelected=item;
+			this.rutaTipo=item.type
 			if(item.hasOwnProperty("stops")){
 				if(item.stops!=null && item.stops.length!=0){
 					this.rutaSelectedShow=""
@@ -313,9 +323,10 @@
 							if(i==item.stops[i].length-1){
 								this.rutaSelectedShow=this.rutaSelectedShow+item.stops[i].code;
 							}else{
+								this.stops = item.stops[i]
 								this.rutaSelectedShow=this.rutaSelectedShow+item.stops[i].code+" - ";
 								this.type= item.type == 'SHORT_ROUTE' ? 'RUTA CORTA' : 'RUTA LARGA' 
-								this.monto_tasa = item.short_route_rate != undefined ? `${item.short_route_rate.toFixed(2)} ${item.short_route_rate_currency}` : undefined
+								this.monto_taza = item.short_route_rate != undefined ? `${item.short_route_rate.toFixed(2)} ${item.short_route_rate_currency}` : undefined
 								this.getMontoTaza()
 							}
 						}
@@ -325,7 +336,7 @@
 		}
 	}
 	app.TravelCreateLineComponent.prototype.getMontoTaza=function(){
-		return this.monto_tasa
+		return this.monto_taza
 	}
 
 	app.TravelCreateLineComponent.prototype.deleteTarifasSelected=function(data,index){
@@ -513,25 +524,43 @@
 		}
 	}
 	app.TravelCreateLineComponent.prototype.openModalVehicle=function(){
+		
 		this.mensajeServicio=null;
 		this.mostrarCargando=false;
 		this.vehicle_buscar=null;
 		this.listVehicles=[];
+		
 		$("#modalVehicles").modal("show");
+		
 	}
 	app.TravelCreateLineComponent.prototype.buscarVehicle=function(){
 		this.jsonFilterVehicle={};
+		if((this.stops==null || this.stops=='' || this.stops.length == 0) && (this.rutaTipo==null || this.rutaTipo=='' || this.rutaTipo.length == 0)){
+			this.mensaje="Antes de colocar el vehiculo debes seleccionar la ruta";
+			this.msg.warning();
+			return;
+		}
+
 		if(!(this.vehicle_buscar==null || this.vehicle_buscar==undefined || this.vehicle_buscar=="" || this.vehicle_buscar=="null")){
 			this.jsonFilterVehicle.license_plate=this.vehicle_buscar.trim();
 		}
 		this.callServicesVehicle(1,"&offset=0&limit="+this.detallePorPaginaVehicle);
 	}
 	app.TravelCreateLineComponent.prototype.selectedVehicle=function(item){
+		
 		if(item!=null){
+			if((this.stops==null || this.stops=='' || this.stops.length == 0) && (this.rutaTipo==null || this.rutaTipo=='' || this.rutaTipo.length == 0)){
+				this.mensaje="Antes de colocar el vehiculo debes seleccionar la ruta";
+				this.msg.warning();
+				return;
+			}
 			$("#modalVehicles").modal("hide");
 			this.vehicleSelected=item;
 			this.listTarifas=[];
 			this.listTarifasSelected=[];
+			this.listChoferes=[];
+			this.listChoferesSelected=[];
+			this.dataFilter=[];
 			if(item.hasOwnProperty("license_plate")){
 				this.vehicleSelectedShow=item.license_plate;
 			}
@@ -541,19 +570,31 @@
 		}
 	}
 	app.TravelCreateLineComponent.prototype.searchTarifas=function(){
-		if(this.vehicleSelected==null){
+			this.listTarifas=[];
+			this.listTarifasSelected=[];
+			this.listChoferes=[];
+			this.listChoferesSelected=[];
+		if((this.stops==null || this.stops=='' || this.stops.length == 0) && (this.rutaTipo==null || this.rutaTipo=='' || this.rutaTipo.length == 0)){
+			this.mensaje="Antes de colocar las tarifas debe seleccionar la ruta";
+			this.msg.warning();
+			return;
+		}
+		if(this.vehicleSelected==null || this.vehicleSelected=='' || this.vehicleSelected.length == 0){
 			this.mensaje="Antes de colocar las tarifas debe seleccionar el vehículo";
 			this.msg.warning();
 			return;
 		}
 		this.jsonFilterTarifa={};
 		this.jsonFilterTarifa.vehicle_type_id=[this.vehicleSelected.vehicle_type_id];
+		this.jsonFilterTarifa.route_type=[this.rutaTipo];
+		this.jsonFilterTarifa.stops=[this.stops.code];
+		const {vehicle_type_id, route_type, stops} = this.jsonFilterTarifa
+		
+
 		if(!(this.codigo_ciudad==null || this.codigo_ciudad==undefined || this.codigo_ciudad=="" || this.codigo_ciudad=="null")){
 			this.jsonFilterTarifa.destination_stop=this.codigo_ciudad.trim();
 		}
-	
-	
-		
+
 		this.callServicesTarifa(1, "&limit="+this.detallePorPaginaTarifa);
 	}
 	app.TravelCreateLineComponent.prototype.getCantidadSelectedTarifa=function(data){
@@ -614,6 +655,7 @@
 			}
 		}
 		let querys="?type=PAGINATE"+parametros;
+		
 		let request = this.service.callServicesHttp("fare-report-line", querys, this.jsonFilterTarifa);
 		request.subscribe(data => {
 			this.procesarRespuestaTarifa(data);
@@ -634,7 +676,7 @@
 				if(data.hasOwnProperty("count")){
 					if(data.count==null || data.count==undefined || data.count==0){
 						this.listTarifas=[];
-						this.mensaje='no existen tarifas para este vehiculo'
+						this.mensaje='No existen tarifas para el tipo de vehiculo y/o parada!'
 						this.msg.error()
 						return
 					}else{
@@ -686,12 +728,16 @@
 						if (data.hasOwnProperty(key)) {
 							var objeto = {};
 							this.listTarifas = [];
-							for (var i = 0; i < data[key].length; i++) {
-								objeto = this.formattedTarifa(data[key][i]);
+							this.dataFilter = []
+							this.dataFilter = data[key].filter(data => data)
+							for (var i = 0; i < this.dataFilter.length; i++) {
+								objeto = this.formattedTarifa(this.dataFilter[i]);
+								
 								if (objeto != null) {
 									this.listTarifas.push(objeto);
 								}
 							}
+							
 							this.pagingActualTarifa.count = data.count;
 						}else{
 							this.listTarifas=[];
@@ -757,6 +803,19 @@
 	}
 	
 	app.TravelCreateLineComponent.prototype.searchChoferes=function(){
+		this.listChoferesSelected=[]
+		if((this.stops==null || this.stops=='' || this.stops.length == 0) && (this.rutaTipo==null || this.rutaTipo=='' || this.rutaTipo.length == 0)){
+			this.mensaje="Antes de colocar los choferes debes de seleccionar la ruta!";
+			this.msg.warning();
+			return;
+		}
+		if(this.vehicleSelected==null || this.vehicleSelected=='' || this.vehicleSelected.length == 0){
+			this.mensaje="Antes de colocar los choferes debes de seleccionar el vehículo";
+			this.msg.warning();
+			return;
+		}
+		
+
 		this.jsonFilterChofer={};
 		var datos=[];
 		var entity=null;
@@ -960,6 +1019,11 @@
 		}
 	}
 	app.TravelCreateLineComponent.prototype.openModalVehicle=function(){
+		if((this.stops==null || this.stops=='' || this.stops.length == 0) && (this.rutaTipo==null || this.rutaTipo=='' || this.rutaTipo.length == 0)){
+			this.mensaje="Antes de colocar el vehiculo debes seleccionar la ruta";
+			this.msg.warning();
+			return;
+		}
 		this.mensajeServicio=null;
 		this.mostrarCargando=false;
 		this.vehicle_buscar=null;
@@ -1145,6 +1209,30 @@
 				this.mensaje = this.service.processMessageError(data, mensajeAll);
 				this.msg.error();
 			}
+		}
+	}
+	app.TravelCreateLineComponent.prototype.keyupsearch=function(event,funcion){
+		try{
+			
+			 if (event.keyCode == 13) {
+				 	switch(funcion){
+						case 'RUTA':
+							this.buscarRuta();
+						break;
+						case 'VEHICULO':
+							this.buscarVehicle();
+						break;
+						case 'TARIFAS':
+							this.searchTarifas();
+						break;
+						case 'CHOFERES':
+							this.searchChoferes();
+						break;
+						default:
+							'ERROR AL PROCESAR LA FUNCION KEYUP!'
+					 }
+			 }
+		}catch(err){
 		}
 	}
 	app.TravelCreateLineComponent.prototype.back=function(){

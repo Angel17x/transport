@@ -58,7 +58,7 @@
 				<div class="col-lg-3 col-md-3 col-sm-6 col-12">
 					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione las tarifas a incluir</h6>
 					<div class="input-group">
-						<input type="text" aria-label="Código Ciudad" class="form-control" placeholder="Código Ciudad" id="codigo_ciudad" name="codigo_ciudad" [(ngModel)]="codigo_ciudad">
+						<input type="text" aria-label="Código Ciudad" class="form-control" placeholder="Código Ciudad" id="codigo_ciudad" name="codigo_ciudad" [(ngModel)]="codigo_ciudad"  (keyup)="keyupsearch($event,'TARIFAS')">
 						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="searchTarifas()">Buscar</button>
 					</div>
 					<div style="margin-top:15px;" *ngIf="listTarifas!=null && listTarifas.length!=0">
@@ -92,7 +92,7 @@
 					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione los choferes</h6>
 					<div class="input-group">
 						<input type="text" aria-label="RIF/CI" class="form-control" placeholder="RIF/CI" id="rif_buscar" name="rif_buscar" [(ngModel)]="rif_buscar">
-						<input type="text" aria-label="Nombre" class="form-control" placeholder="Nombre buscar" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar">
+						<input type="text" aria-label="Nombre" class="form-control" placeholder="Nombre buscar" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar" (keyup)="keyupsearch($event,'CHOFERES')">
 						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchChoferes()">Buscar</button>
 					</div>
 					<div style="margin-top:15px;" *ngIf="listChoferes!=null && listChoferes.length!=0">
@@ -270,7 +270,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 						<label class="font-regular" style="font-size:12px;margin-bottom:0px;">Vehículos</label>
 						<div style="display:flex;">
-							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="vehicle_buscar" id="vehicle_buscar" class="form-control font-regular" [(ngModel)]="vehicle_buscar" maxlength="30">
+							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="vehicle_buscar" id="vehicle_buscar" class="form-control font-regular" [(ngModel)]="vehicle_buscar" maxlength="30" (keyup)="keyupsearch($event,'VEHICULO')">
 							<img src="assets/images/search_black.svg" style="cursor:pointer;" (click)="buscarVehicle()">
 						</div>
 					</div>
@@ -356,7 +356,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
 						<label class="font-regular" style="font-size:12px;margin-bottom:0px;">Rutas</label>
 						<div style="display:flex;">
-							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="ruta_buscar" id="ruta_buscar" class="form-control font-regular" [(ngModel)]="ruta_buscar" maxlength="30">
+							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="ruta_buscar" id="ruta_buscar" class="form-control font-regular" [(ngModel)]="ruta_buscar" maxlength="30"  (keyup)="keyupsearch($event,'RUTA')">
 							<img src="assets/images/search_black.svg" style="cursor:pointer;" (click)="buscarRuta()">
 						</div>
 					</div>
