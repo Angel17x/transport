@@ -1,0 +1,25 @@
+<div class="fixed-sn" >
+	<nav-bar></nav-bar>
+    <main style="margin:4%;padding:2%;margin-top:0px;">
+        <div class="container-fluid" style="width:100%;">
+			<loading-service></loading-service><!--Cargando-->
+			<div style="border-bottom:1px solid #E0E0E0;" class="row"  style="margin-top:15px;margin-bottom:10px;">
+    			<div class="col-lg-9 col-md-8 col-sm-12 col-12" style="text-align:left;">
+    				<h2 class="color-title font-bold">{{title}}</h2>
+    			</div>
+    		</div>
+			<div *ngIf="listMenu!=null && listMenu.length!=0" class="row" style="margin-top:15px;">
+				<div  *ngFor="let item of listMenu let i = index;" class="col-lg-3 col-md-3 col-sm-6 col-12">
+					<div class="card" style="cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow: ellipsis;margin-bottom:5px;" (click)="getRedirect(item)" [title]="item.name">
+                        <div style="padding:10px;" align="center">
+							<img *ngIf="item.image!=null" [src]="item.image" height="70px"/>
+                       	 </div>
+                        <div class="card-block" style="text-align:center;">
+                            <h5 class="card-title font-regular" style="color:black; font-size:18px;">{{item.functionality}}</h5>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>

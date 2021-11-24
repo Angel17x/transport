@@ -1,0 +1,108 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+    <div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Ventas</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Ventas</h6>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Periodo(Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="end" name="end" [(ngModel)]="end">
+								<label for="end">Periodo(Fin)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+							<h6 style="text-align:right;margin-top:10px;" class="font-regular" *ngIf="monto_total!=null"><b class="font-bold">Monto total:&nbsp;</b>{{monto_total}}</h6>
+							<h6 style="text-align:right;" class="font-regular" *ngIf="porcentaje_total!=null"><b class="font-bold">12%:&nbsp;</b>{{porcentaje_total}}</h6>
+							<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+								<table id="table" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Cód</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Línea</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Método Pago</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Monto total</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">12%</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listRegister let i = index;">
+											<td data-title="#" class="font-regular"  style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												&nbsp;{{i+1}}
+											</td>
+											<td data-title="Cód" class="font-regular" *ngIf="item.line_code!=null" style="text-align:center;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												&nbsp;{{item.line_code}}
+											</td>
+											<td data-title="Cód" *ngIf="item.line_code==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Línea" class="font-regular" *ngIf="item.line_name!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												&nbsp;{{item.line_name}}
+											</td>
+											<td data-title="Línea" *ngIf="item.line_name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Metodo de pago" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+												<div *ngIf="item.payment_methods!=null && item.payment_methods.length!=0">
+													<div *ngFor="let item1 of item.payment_methods let j = index;" style="margin-bottom:10px;">
+														<label class="font-regular" style="font-size:13px">{{item1.formatted_amount}} ({{item1.count}})</label><br>
+														<label class="font-bold" style="font-size:13px">{{item1.formatted_payment}}</label>
+													</div>
+												</div>
+											</td>
+											<td data-title="Monto total" class="font-regular" *ngIf="item.formatted_sum!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row">
+												&nbsp;<label class="font-regular" style="font-size:13px;">{{item.formatted_sum}}&nbsp;<b class="font-bold" *ngIf="item.count!=null">({{item.count}})</b></label> 
+											</td>
+											<td data-title="Monto total" *ngIf="item.formatted_sum==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Porcentaje" class="font-regular" *ngIf="item.formatted_porcentaje!=null" style="text-align:right;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row">
+												&nbsp;<label class="font-regular" style="font-size:13px;">{{item.formatted_porcentaje}}</label> 
+											</td>
+											<td data-title="Porcentaje" *ngIf="item.formatted_porcentaje==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row">
+												&nbsp;
+											</td>
+										</tr>
+								</tbody>
+							</table>
+						</div>
+						<!--<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>-->
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</main>

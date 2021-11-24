@@ -1,0 +1,36 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-parada-create" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+					<div class="form-floating" style="margin-top:15px;">
+						<input type="text" class="form-control" id="code" name="code" [(ngModel)]="code" maxlength="3" style="text-transform:uppercase;">
+						<label for="code">Código</label>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+					<div class="form-floating" style="margin-top:15px;">
+						<input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" maxlength="25" style="text-transform:uppercase;">
+						<label for="name">Nombre de la parada</label>
+					</div>
+				</div>
+			</div>
+			<div  class="row" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="done()">Guardar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

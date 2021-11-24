@@ -1,0 +1,221 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;overflow-y:auto;0px;overflow-x:hidden;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+				<h3 class="font-regular d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h3>
+				<h5 class="font-regular d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Periodo (Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="end" name="end" [(ngModel)]="end">
+								<label for="end">Periodo (Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="linea" name="linea" [(ngModel)]="linea" maxlength="30" style="text-transform:uppercase;">
+								<label for="linea">Linea</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="viaje" name="viaje" [(ngModel)]="viaje" maxlength="10" style="text-transform:uppercase;">
+								<label for="viaje">Nro.viaje</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="nro" name="nro" [(ngModel)]="nro" maxlength="10" style="text-transform:uppercase;">
+								<label for="nro"># Reservación</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="cliente" name="cliente" [(ngModel)]="cliente" maxlength="50" style="text-transform:uppercase;">
+								<label for="cliente">Usuarios</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="status" name="status" aria-label="Seleccione el estatus" [(ngModel)]="status">
+									<option *ngFor="let item of listStatus let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="status">Estatus</label>
+							</div>
+						</div>
+						<div class="col-lg-8 col-md-8 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+					<table id="table-car" class="table table-hover table-mc-light-blue">
+						<thead>
+							<tr>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Código</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Viaje</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Linea</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Destino<br>Fecha/Hora</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Método<br>Referencia</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Usuarios</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Monto</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Estatus</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of listRegister let i = index;">
+								<td data-title="COD" *ngIf="item.sequence!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row">
+									&nbsp;{{item.sequence}}
+								</td>
+								<td data-title="COD" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row" *ngIf="item.sequence==null">
+										&nbsp;			
+								</td>
+								<td data-title="VIAJE" *ngIf="item.trip_sequence!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row">
+									&nbsp;{{item.trip_sequence}}
+								</td>
+								<td data-title="VIAJE" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row" *ngIf="item.trip_sequence==null">
+									&nbsp;					
+								</td>
+								<td data-title="LINEA" *ngIf="item.line_name!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+									&nbsp;{{item.line_code}}-{{item.line_name}}
+								</td>
+								<td data-title="LINEA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.line_name==null">
+										&nbsp;			
+								</td>
+								<td data-title="Destino/fecha/hora" *ngIf="item.parada!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+									&nbsp;{{item.parada}}<br>
+									<label class="font-regular" style="font-size:12px" *ngIf="item.date!=null">&nbsp;{{item.date}}</label><br *ngIf="item.date!=null">
+									<label class="font-regular" style="font-size:12px" *ngIf="item.schedule!=null">&nbsp;{{item.schedule}}</label><br *ngIf="item.schedule!=null">
+								</td>
+								<td data-title="Destino/fecha/hora" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.parada==null">
+									&nbsp;					
+								</td>
+								<td data-title="Método/referencia" *ngIf="item.formatted_method!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+									<label class="font-regular" style="font-size:12px" *ngIf="item.formatted_method!=null">&nbsp;{{item.formatted_method}}</label><br>
+									&nbsp;{{item.banco}}<br>
+									<label class="font-bold" style="font-size:12px" *ngIf="item.referencia!=null">&nbsp;{{item.referencia}}</label><br *ngIf="item.referencia!=null">
+
+								</td>
+								<td data-title="Método/referencia" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.formatted_method==null">
+									&nbsp;					
+								</td>			
+								<td data-title="Usuarios" *ngIf="item.passengers!=null && item.passengers.length!=0" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+									<div *ngFor="let item1 of item.passengers let i = index;" style="margin-bottom:10px;border-bottom:1px solid #bebebe;">
+										<label style="font-size:11px;">{{item1.name}} <b *ngIf="item1.id_doc!=null">({{item1.id_doc}})</b></label><br>
+										<label style="font-size:11px;" *ngIf="item1.phone!=null">{{item1.phone}}</label>
+										<label style="font-size:11px;" *ngIf="item1.email!=null">{{item1.email}}</label>
+									</div>
+								</td>
+								<td data-title="Usuarios" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.passengers==null || item.passengers.length==0">
+													
+								</td>
+								<td data-title="Monto" *ngIf="item.total_formatted!=null" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row">
+									&nbsp;{{item.total_formatted}}<br>
+									&nbsp;{{item.total_formatted_bs}}
+								</td>
+								<td data-title="Monto" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.total_formatted==null">
+									&nbsp;					
+								</td>
+								<td data-title="Estatus" class="font-regular" style="word-break: break-all;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row" *ngIf="item.formatted_status!=null">
+										&nbsp;{{item.formatted_status}}			
+								</td>								
+								<td data-title="Estatus" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row" *ngIf="item.formatted_status==null">
+									&nbsp;					
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+					[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+					[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+					(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+					(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+					(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+					(valueChangeRecords)="getValueChangeRecords($event)">
+				</custom-table>
+			</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+			<h3 class="font-bold" style="color:#d0d6e2;">No hay registros</h3>
+		</div>
+	</div>
+	</div>
+</main>
+<div class="modal" tabindex="-1" id="modalValidarReserva">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Validar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" *ngIf="dataSelected!=null">
+				<p *ngIf="dataSelected!=null">Desea validar  la reserva  <b class="font-bold">{{dataSelected.sequence}}</b> y asignar sus respectivos asientos</p>
+				<div *ngIf="dataSelected.passengers!=null && dataSelected.passengers.length!=0">
+					<div *ngFor="let item of dataSelected.passengers let i = index;">
+						<div class="form-floating" style="margin-top:5px;">
+							<input type="text" class="form-control filtro-busqueda" id="asiento{{i}}" name="asiento{{i}}" [(ngModel)]="item.asiento" maxlength="10" style="text-transform:uppercase;">
+							<label [attr.for]="'asiento' + i" class="font-regular">Asiento ({{i+1}})</label>
+						</div>
+					</div>
+				</div> 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" (click)="reservar()">Reservar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalEliminarReserva">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Eliminar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" *ngIf="dataSelected!=null">
+				<p *ngIf="dataSelected!=null">Desea validar  la reserva  <b class="font-bold">{{dataSelected.sequence}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="deleteData()">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalCancelarReservation">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Cancelar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" *ngIf="dataSelected!=null">
+				<p *ngIf="dataSelected!=null">Desea cancelar  la reserva  <b class="font-bold">{{dataSelected.sequence}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="cancelData()">Cancelar</button>
+			</div>
+		</div>
+	</div>
+</div>

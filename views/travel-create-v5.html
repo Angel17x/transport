@@ -1,0 +1,430 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;scroll-behavior: initial;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-travel-create" style="margin-top:15px;">
+			<div class="row">
+				<div [class]="class1">
+					<div style="margin-top:15px;">
+						<div class="form-floating" (click)="openModalLineas()" *ngIf="save">
+							<input  type="text" class="form-control" id="line" name="line" [(ngModel)]="lineaSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
+							<label for="line">Linea</label>
+						</div>
+						<div *ngIf="!save">
+							<label *ngIf="line_name!=null"><b class="font-bold">Linea:&nbsp;</b>{{line_name}}</label>
+						</div>
+					</div>
+					<div style="margin-top:15px;">
+						<div class="form-floating"  (click)="openModalRuta()" *ngIf="save">
+							<input  type="text" class="form-control" id="ruta" name="ruta" [(ngModel)]="rutaSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
+							<label for="ruta">Ruta seleccionada</label>
+						</div>
+						<div *ngIf="!save">
+							<label *ngIf="ruta!=null"><b class="font-bold">Ruta seleccionada:&nbsp;</b>{{ruta}}</label>
+						</div>
+					</div>
+					<div style="margin-top:15px;" *ngIf="type!=null">
+						<label for="type">Tipo de viaje</label>
+						<h6 class="font-bold">{{translateTexto(type)}}</h6>
+					</div>
+					<div style="margin-top:15px;">
+						<div class="form-floating"  (click)="openModalVehicle()">
+							<input  type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="vehicleSelectedShow" maxlength="30" style="text-transform:uppercase;cursor:pointer;">
+							<label for="vehicle">Vehículo seleccionado</label>
+						</div>
+					</div>
+					
+					<div style="margin-top:15px;">
+						<div class="form-floating">
+							<input  type="date" class="form-control" id="fecha" name="fecha" [(ngModel)]="fecha">
+							<label for="fecha">Fecha</label>
+						</div>
+					</div>
+					<div style="margin-top:15px;">
+						<div class="form-floating">
+							<input  type="time" class="form-control" id="time" name="time" [(ngModel)]="time">
+							<label for="time">Hora</label>
+						</div>
+					</div>
+					
+					<div style="margin-top:15px;">
+						<div class="form-floating">
+							<input  type="text" class="form-control" id="capacidad" name="capacidad" [(ngModel)]="capacidad">
+							<label for="capacidad">Capacidad</label>
+						</div>
+					</div>
+					<div style="margin-top:15px;" *ngIf="type!='SHORT_ROUTE'">
+						<div class="form-floating">
+							<input  type="text" class="form-control" id="capacidad_mayor" name="capacidad_mayor" [(ngModel)]="capacidad_mayor">
+							<label for="capacidad_mayor">Capacidad Adulto Mayor</label>
+						</div>
+					</div>
+					<div style="margin-top:15px;" *ngIf="type!='SHORT_ROUTE'">
+						<div class="form-floating">
+							<input  type="text" style="text-transform:uppercase;" class="form-control" id="puerta" name="puerta" [(ngModel)]="puerta" maxlength="3">
+							<label for="puerta">Puerta de embarque</label>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-lg-3 col-md-3 col-sm-6 col-12" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione las tarifas a incluir</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Código Ciudad" class="form-control" placeholder="Código Ciudad" id="codigo_ciudad" name="codigo_ciudad" [(ngModel)]="codigo_ciudad" (keyup)="keyupsearch($event,'TARIFAS')">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="searchTarifas()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listTarifas!=null && listTarifas.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listTarifas let i = index;" (click)="selectedTarifa(item)">
+							<div class="card-body" style="padding:0px;">
+								<label style="font-size:12px;" class="font-regular">{{item.start_stop_name}} - {{item.destination_stop_name}} ({{item.vehicle_type_name}})</label><br>
+								<label style="font-size:12px;" class="font-regular">{{item.formatted_amount}} </label>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActualTarifa.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPaginaTarifa"
+							[totalPageRecords]="totalPageTarifa"
+							[pageSelected]="pageSelectedTarifa"
+							(cantidadTransaccionesTabla)="getCantidadSelectedTarifa($event)"
+							(valueFirst)="getValueFirstTarifa($event)"
+							(valuePrevious)="getValuePreviousTarifa($event)"
+							(valueNext)="getValueNextTarifa($event)"
+							(valueLast)="getValueLastTarifa($event)"
+							(valueChangeRecords)="getValueChangeRecordsTarifa($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listTarifas==null || listTarifas.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay tarifas</h6>
+					</div>
+				</div>
+				<div [class]="class1">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione los choferes</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Nombre, RIF/CI" class="form-control" placeholder="Nombre o RIF buscar" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar" (keyup)="keyupsearch($event,'CHOFERES')">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchChoferes()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listChoferes!=null && listChoferes.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listChoferes let i = index;" (click)="selectedChoferes(item)">
+							<div class="card-body" style="padding:0px;">
+								<label style="font-size:12px;" class="font-regular">{{item.name}} - {{item.id_doc}}</label>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActualChofer.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPaginaChofer"
+							[totalPageRecords]="totalPageChofer"
+							[pageSelected]="pageSelectedChofer"
+							(cantidadTransaccionesTabla)="getCantidadSelectedChofer($event)"
+							(valueFirst)="getValueFirstChofer($event)"
+							(valuePrevious)="getValuePreviousChofer($event)"
+							(valueNext)="getValueNextChofer($event)"
+							(valueLast)="getValueLastChofer($event)"
+							(valueChangeRecords)="getValueChangeRecordsChofer($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listChoferes==null || listChoferes.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay choferes</h6>
+					</div>
+				</div>
+				<div [class]="class1">
+					<div *ngIf="listTarifasSelected!=null && listTarifasSelected.length!=0">
+						<h6 style="text-decoration:underline;">Tarifas seleccionadas</h6>
+						<div *ngFor="let item of listTarifasSelected let i = index;" style="margin-top:5px;">
+							<div style="display:flex;padding:5px;border:1px solid #bebebe; border-radius:5px">
+								<div style="margin-right:auto;">
+									<label>{{item.start_stop_code}} -{{item.destination_stop_code}}</label><br>
+								&nbsp;{{item.amount}}&nbsp;{{item.currency}}
+								</div>
+								<div style="width:25px;" *ngIf="save">
+									<a (click)="deleteTarifasSelected(item,i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<div *ngIf="listChoferesSelected!=null && listChoferesSelected.length!=0">
+						<h6 style="text-decoration:underline;margin-top:20px;">Choferes seleccionados</h6>
+						<div *ngFor="let item of listChoferesSelected let i = index;" style="margin-top:5px;">
+							<div style="display:flex;padding:5px;border:1px solid #bebebe; border-radius:5px">
+								<div style="margin-right:auto;">
+									<label>{{item.name}} -{{item.id_doc}}</label>
+								</div>
+								<div style="width:25px;">
+									<a (click)="deleteChoferesSelected(item,i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style="margin-top:15px;" *ngIf="monto_tasa!=null">
+						<label for="type">Monto de la tasa</label>
+						<h6 class="font-bold">{{monto_tasa}}</h6>
+					</div>
+					<div style="text-align:right;" *ngIf="(listTarifasSelected!=null && listTarifasSelected.length!=0) && (listChoferesSelected!=null && listChoferesSelected.length!=0) ">
+						<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:5px;font-size:14px;" (click)="back()">Regresar</button>
+						<button type="button" class="btn btn-dark btn-lg" style="margin:5px;font-size:14px;" (click)="clean()">Limpiar</button>
+						<button class="btn btn-lg button-done" style="margin:5px;font-size:14px;" (click)="done()">{{texto}}</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>
+<div class="modal" tabindex="-1" id="modalLineas" data-bs-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content" style="padding:15px;">
+			<div class="modal-header">
+				<h5 class="modal-title font-bold">Lineas disponibles</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body"  style="margin:2px;border:1px solid #bebebe;background:#eeeeee;">
+				<div class="row" style="margin-top:0px;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<label class="font-regular" style="font-size:12px;margin-bottom:0px;">Lineas</label>
+						<div style="display:flex;">
+							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="linea_buscar" id="linea_buscar" class="form-control font-regular" [(ngModel)]="linea_buscar" maxlength="30"  (keyup)="keyupsearch($event,'LINEA')">
+							<img src="assets/images/search_black.svg" style="cursor:pointer;" (click)="buscarLinea()">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listLines==null || listLines.length==0">
+						<div  *ngIf="mostrarCargando==false"  style="text-align:center;padding-top:45px;vertical-align:middle;" >
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio==null">No hay registros</h6>
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio!=null">{{mensajeServicio}}</h6>
+						</div>
+						<div style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="mostrarCargando==true">
+							<div style="text-align:center;padding-top:20px;padding-bottom:20px;text-align:center">
+								 <img [src]="imagenCargando" style="width:70px;heigth:70px;box-shadow:none;text-align:center;">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listLines!=null && listLines.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Código</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Linea</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listLines let i = index;" style="cursor:pointer;" (click)="selectedLinea(item)">
+										<td data-title="Código" *ngIf="item.code!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											&nbsp;{{item.code}}
+										</td>
+										<td data-title="Código" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row" *ngIf="item.code==null">
+															
+										</td>
+										<td data-title="Nombre" *ngIf="item.name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											&nbsp;{{item.name}}
+										</td>
+										<td data-title="Nombre" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row" *ngIf="item.name==null">
+															
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table 
+							[size]="pagingActualLine.count" 
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'" 
+							[totalPage]="detallePorPaginaLine"
+							[totalPageRecords]="totalPageLine" 
+							[pageSelected]="pageSelectedLine"
+							(cantidadTransaccionesTabla)="getCantidadSelectedLine($event)"
+							[ocultarCantidad]="'true'"
+							(valueFirst)="getValueFirstLine($event)" (valuePrevious)="getValuePreviousLine($event)"
+							(valueNext)="getValueNextLine($event)" (valueLast)="getValueLastLine($event)"
+							(valueChangeRecords)="getValueChangeRecordsLine($event)">
+						</custom-table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary font-regular" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="modalVehicles" data-bs-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content" style="padding:15px;">
+			<div class="modal-header">
+				<h5 class="modal-title font-bold">Vehículos disponibles</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body"  style="margin:2px;border:1px solid #bebebe;background:#eeeeee;">
+				<div class="row" style="margin-top:0px;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<label class="font-regular" style="font-size:12px;margin-bottom:0px;">Vehículos</label>
+						<div style="display:flex;">
+							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="vehicle_buscar" id="vehicle_buscar" class="form-control font-regular" [(ngModel)]="vehicle_buscar" maxlength="30" (keyup)="keyupsearch($event,'VEHICULO')">
+							<img src="assets/images/search_black.svg" style="cursor:pointer;" (click)="buscarVehicle()">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listVehicles==null || listVehicles.length==0">
+						<div  *ngIf="mostrarCargando==false"  style="text-align:center;padding-top:45px;vertical-align:middle;" >
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio==null">No hay registros</h6>
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio!=null">{{mensajeServicio}}</h6>
+						</div>
+						<div style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="mostrarCargando==true">
+							<div style="text-align:center;padding-top:20px;padding-bottom:20px;text-align:center">
+								 <img [src]="imagenCargando" style="width:70px;heigth:70px;box-shadow:none;text-align:center;">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listVehicles!=null && listVehicles.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Placa</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Tipo</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Marca</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listVehicles let i = index;" style="cursor:pointer;" (click)="selectedVehicle(item)">
+										<td data-title="Placa" *ngIf="item.license_plate!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row">
+											&nbsp;{{item.license_plate}}
+										</td>
+										<td data-title="Placa" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row" *ngIf="item.license_plate==null">
+															
+										</td>
+										<td data-title="Tipo" *ngIf="item.vehicle_type_name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row">
+											&nbsp;{{item.vehicle_type_name}}
+										</td>
+										<td data-title="Tipo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row" *ngIf="item.vehicle_type_name==null">
+															
+										</td>
+										<td data-title="Marca" *ngIf="item.brand!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row">
+											&nbsp;{{item.brand}}
+										</td>
+										<td data-title="Marca" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;  word-break: break-all;" scope="row" *ngIf="item.brand==null">
+															
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table 
+							[size]="pagingActualVehicle.count" 
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'" 
+							[totalPage]="detallePorPaginaVehicle"
+							[totalPageRecords]="totalPageVehicle" 
+							[pageSelected]="pageSelectedVehicle"
+							(cantidadTransaccionesTabla)="getCantidadSelectedVehicle($event)"
+							[ocultarCantidad]="'true'"
+							(valueFirst)="getValueFirstVehicle($event)" (valuePrevious)="getValuePreviousVehicle($event)"
+							(valueNext)="getValueNextVehicle($event)" (valueLast)="getValueLastVehicle($event)"
+							(valueChangeRecords)="getValueChangeRecordsVehicle($event)">
+						</custom-table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary font-regular" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" tabindex="-1" id="modalRuta" data-bs-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content" style="padding:15px;">
+			<div class="modal-header">
+				<h5 class="modal-title font-bold">Rutas</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body"  style="margin:2px;border:1px solid #bebebe;background:#eeeeee;overflow-y:visible;">
+				<div class="row" style="margin-top:0px;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<label class="font-regular" style="font-size:12px;margin-bottom:0px;">Rutas</label>
+						<div style="display:flex;">
+							<input type="text" class="font-regular" style="font-size:12px;text-transform:uppercase;border-radius:5px;margin-right:5px;" name="ruta_buscar" id="ruta_buscar" class="form-control font-regular" [(ngModel)]="ruta_buscar" maxlength="30" (keyup)="keyupsearch($event,'RUTA')">
+							<img src="assets/images/search_black.svg" style="cursor:pointer;" (click)="buscarRuta()">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listRutas==null || listRutas.length==0">
+						<div  *ngIf="mostrarCargando==false"  style="text-align:center;padding-top:45px;vertical-align:middle;" >
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio==null">No hay registros</h6>
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio!=null">{{mensajeServicio}}</h6>
+						</div>
+						<div style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="mostrarCargando==true">
+							<div style="text-align:center;padding-top:20px;padding-bottom:20px;text-align:center">
+								 <img [src]="imagenCargando" style="width:70px;heigth:70px;box-shadow:none;text-align:center;">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listRutas!=null && listRutas.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Código</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Trayectos</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listRutas let i = index;" style="cursor:pointer;" (click)="selectedRuta(item)">
+										<td data-title="COD" *ngIf="item.name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+											{{item.name}}
+										</td>
+										<td data-title="COD" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.name==null">
+													 
+										</td>
+										<td data-title="TRAYECTOS" *ngIf="item.stops!=null && item.stops.length!=0" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											<div *ngFor="let item1 of item.stops let j = index;">
+												<label>{{item1.code}}&nbsp;-{{item1.name}}</label><br *ngIf="item1!=null">
+											</div>
+										</td>
+										<td data-title="TRAYECTOS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.stops==null || item.stops.length==0">
+													
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table 
+							[size]="pagingActualRuta.count" 
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'" 
+							[totalPage]="detallePorPaginaRuta"
+							[totalPageRecords]="totalPageRuta" 
+							[pageSelected]="pageSelectedRuta"
+							(cantidadTransaccionesTabla)="getCantidadSelectedRuta($event)"
+							[ocultarCantidad]="'true'"
+							(valueFirst)="getValueFirstRuta($event)" (valuePrevious)="getValuePreviousRuta($event)"
+							(valueNext)="getValueNextRuta($event)" (valueLast)="getValueLastRuta($event)"
+							(valueChangeRecords)="getValueChangeRecordsRuta($event)">
+						</custom-table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary font-regular" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>

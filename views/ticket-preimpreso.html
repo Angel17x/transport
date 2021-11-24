@@ -1,0 +1,107 @@
+<div>
+	<nav-bar class="noPrint"></nav-bar>
+    <main id="main1" style="margin:1%;padding:2%;margin-top:0px;height:100%;padding-top:25px;">
+        <div class="container" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row noPrint"  style="margin-top:0px;;margin-bottom:0px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<div class="card"  style="border:none;">
+			<div class="card-body" *ngIf="listItems!=null && listItems.length!=0" style="padding:0px;">
+				<div *ngFor="let item of listItems let i = index;">
+					<div style="width:860px;padding-top:10px;display:flex;">
+						<div style="width:560px;">
+							<div style="height:25px;padding-top:3px;">
+								<label class="font-regular" style="font-size:11px;margin-left:60px;" *ngIf="line_name!=null">{{line_name}}</label>
+							</div>
+							<div style="height:25px;padding-top:3px;">
+								<label class="font-regular" style="font-size:11px;margin-left:60px;" *ngIf="parada!=null">{{parada}}</label>
+							</div>
+							<div style="height:25px;display:flex;padding-top:3px;">
+								<div style="width:360px;">
+									<label class="font-regular" style="font-size:11px;margin-left:60px;" *ngIf="item.name!=null">{{item.name}}</label>
+								</div>
+								<div style="width:200px;">
+									<label class="font-regular" style="font-size:11px;margin-left:120px;" *ngIf="item.id_doc!=null">{{item.id_doc}}</label>
+								</div>
+							</div>
+							<div style="height:55px;padding-top:25px;display:flex;">
+								<div style="width:180px;display:flex;">
+									<div style="width:90px;">
+										<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="fecha_salida!=null">{{fecha_salida}}</label>
+									</div>
+									<div style="width:90px;">
+										<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="hora!=null">{{hora}}</label>
+									</div>
+								</div>
+								<div style="width:180px;display:flex;">
+									<div style="width:60px;">
+										<label class="font-regular" style="font-size:10px;margin-left:10px;">ANDEN</label>
+									</div>
+									<div style="width:60px;">
+										<label class="font-regular" style="font-size:11px" *ngIf="placa!=null">{{placa}}</label>
+									</div>
+									<div style="width:60px;">
+										
+									</div>
+								</div>
+								<div style="width:200px;text-align:right;">
+									<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="total_formatted_bs!=null">{{total_formatted_bs}}</label>
+								</div>
+							</div>
+							<div style="height:55px;padding-top:15px;display:flex;">
+								<div style="width:180px;">
+									<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="fecha_emision!=null">{{fecha_emision}}</label>
+								</div>
+								<div style="width:180px;">
+								</div>
+								<div style="width:200px;text-align:right;">
+									<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="fecha_emision!=null">{{total_formatted_bs}}</label>
+								</div>
+							</div>
+						</div>
+						<div style="display:flex;margin-left:80px;">
+							<div style="width:250px;padding-right:30px;">
+								<div style="height:25px;padding-top:3px;text-align:right;">
+									<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="stop!=null">{{stop}}</label>
+								</div>
+								<div style="height:55px;padding-top:3px;display:flex;margin-left:30px;">
+									<div style="width:125px;text-align:right;">
+										<label class="font-regular" style="font-size:10px;margin-left:10px;" *ngIf="hora!=null">{{hora}}</label>
+									</div>
+									<div style="text-align:right;width:125px;">
+										<label class="font-regular" style="font-size:10px;margin-left:10px;">ANDEN</label>
+									</div>
+								</div>
+							</div>
+							<div style="width:250px;padding-right:30px;height:23px;margin-left:60px;">
+								<div style="height:25px;padding-top:3px;text-align:right;">
+									<label class="font-regular" style="font-size:10px;" *ngIf="stop!=null">{{stop}}</label>
+								</div>
+								<div style="height:55px;padding-top:3px;display:flex;margin-left:30px;">
+									<div style="width:125px;text-align:right;">
+										<label class="font-regular" style="font-size:10px;" *ngIf="hora!=null">{{hora}}</label>
+									</div>
+									<div style="text-align:right;width:125px;">
+										<label class="font-regular" style="font-size:10px;">ANDEN</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+	</div>
+</main>
+</div>

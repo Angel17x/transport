@@ -1,0 +1,217 @@
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje"></msg-component>
+			<loading-service></loading-service>
+			<div class="row" style="margin-bottom:10px;">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+					<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Horarios</h4>
+					<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Horarios</h6>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:right;">
+					<button type="button" class="btn btn-lg font-regular button-done " routerLink="/schedule-create">
+						<img src="assets/images/add.svg" width="20px"/>&nbsp;Nuevo
+					</button>
+				</div>
+			</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="linea" name="linea" [(ngModel)]="linea" maxlength="50" style="text-transform:uppercase;">
+										<label for="nombre">Linea</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="time" class="form-control filtro-busqueda" id="horario" name="horario" [(ngModel)]="horario">
+										<label for="nombre">Horario de salida</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" class="form-control filtro-busqueda" id="parada" name="parada" [(ngModel)]="parada" maxlength="20" style="text-transform:uppercase;">
+										<label for="parada">Parada</label>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<div class="form-floating" style="margin-top:5px;">
+										<select class="form-select filtro-busqueda" id="status" name="status" aria-label="Seleccione el estatus" [(ngModel)]="status">
+											<option *ngFor="let item of listStatus let i = index;" [value]="item.value">{{item.name}}</option>
+										</select>
+										<label for="status">Estatus</label>
+									</div>
+								</div>
+								<div class="col-lg-8 col-md-8 col-sm-12 col-12" style="text-align:right;margin-top:5px;">
+									<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+									<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">#</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;">COD</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">LINEA</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">TRAYECTOS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">SALIDA FIJA</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">SALIDA VARIABLE</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;">DIAS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center">FERIADOS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;">ESTATUS</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listRegister let i = index;">
+										<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{((pageSelected-1)*detallePorPagina)+(i+1)}}
+										</td>
+										<td data-title="COD" *ngIf="item.code!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row">
+											&nbsp;{{item.code}}
+										</td>
+										<td data-title="COD" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;" scope="row" *ngIf="item.code==null">
+													
+										</td>
+										<td data-title="LINEA" *ngIf="item.line!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{item.line}}
+										</td>
+										<td data-title="LINEA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.line==null">
+													
+										</td>
+										<td data-title="TRAYECTOS" *ngIf="item.trayectos!=null && item.trayectos.length!=0" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											<div *ngFor="let item1 of item.trayectos let j = index;">
+												<label style="margin-top:15px;">Salida:&nbsp;{{item1.name_salida}}&nbsp;-{{item1.punto_salida}}</label><br>
+												<label>Llegada:&nbsp;{{item1.name_llegada}}&nbsp;-{{item1.punto_llegada}}<br>
+												<b class="font-bold">{{item1.amount}} {{item1.coin}}</b></label>
+											</div>
+										</td>
+										<td data-title="TRAYECTOS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.trayectos==null || item.trayectos.length==0">
+													
+										</td>
+										<td data-title="SALIDA FIJA" *ngIf="item.schedule!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;{{item.schedule}}
+										</td>
+										<td data-title="SALIDA FIJA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.schedule==null">
+													
+										</td>
+										<td data-title="SALIDA VAR" *ngIf="item.frequency!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											&nbsp;Desde:&nbsp;{{item.schedule_init}}&nbsp; hasta:&nbsp;{{item.schedule_end}}&nbsp; cada:&nbsp;{{item.frequency}}
+										</td>
+										<td data-title="SALIDA VAR" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.frequency==null">
+													
+										</td>
+										<td data-title="DIAS" *ngIf="item.days!=null && item.days.length!=0" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+											<div *ngFor="let item1 of item.days let j = index;">
+												<label>&nbsp;{{item1}}</label><br>
+											</div>
+										</td>
+										<td data-title="DIAS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;"scope="row" *ngIf="item.days==null || item.days.length==0">
+													
+										</td>
+										<td data-title="FERIADOS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center;"scope="row">
+											<img src="assets/images/done_outline_green.svg"	height="15px" *ngIf="item.feriados">
+											<img src="assets/images/cancelar.svg"	height="15px" *ngIf="!item.feriados">
+										</td>
+										<td data-title="ESTATUS" *ngIf="item.formatted_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row">
+											{{item.formatted_status}}
+										</td>
+										<td data-title="ESTATUS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;"scope="row" *ngIf="item.formatted_status==null">
+													
+										</td>
+										<td style="text-align:right;">
+											<div class="btn-group" role="group" style="padding-left:0px;padding-right:0px;margin-bottom:5px;text-align:right;">
+												<div class="dropdown" *ngIf="item.actions!=null && item.actions.length!=0">
+													<button class="btn btn-secondary dropdown-toggle" type="button" name="dropdownName{{i}}" id="dropdownMenu{{i}}" data-bs-toggle="dropdown" aria-expanded="false">
+														<img src="assets/images/add.svg" width="20px"/>
+													</button>
+													<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+														<li (click)="selectedAction(item,item1)" style="cursor:pointer;"  *ngFor="let item1 of item.actions; let j = index;">
+															<a class="dropdown-item">{{item1.functionality_detail}}</a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>	
+		</div>
+	</main>
+
+<div class="modal" tabindex="-1" id="modalDeleteSchedule">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Eliminar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null && dataSelected.frequency==null">Desea eliminar el horario de la linea  <b class="font-bold">{{dataSelected.line}}</b> que tiene salida a<b class="font-bold">{{dataSelected.schedule}}</b></p>
+				<p *ngIf="dataSelected!=null && dataSelected.frequency!=null">Desea eliminar el horario de la linea  <b class="font-bold">{{dataSelected.line}} </b>  que trabaja desde<b class="font-bold"> {{dataSelected.schedule_init}}</b> hasta <b class="font-bold">{{dataSelected.schedule_end}}</b> y tiene una frecuencia de salida <b class="font-bold"> {{dataSelected.frequency}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="deleteData()">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalActivateSchedule">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Habilitar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null && dataSelected.frequency==null">Desea habilitar el horario de la linea  <b class="font-bold">{{dataSelected.line}}</b> que tiene salida a<b class="font-bold">{{dataSelected.schedule}}</b></p>
+				<p *ngIf="dataSelected!=null && dataSelected.frequency!=null">Desea habilitar el horario de la linea  <b class="font-bold">{{dataSelected.line}} </b>  que trabaja desde<b class="font-bold"> {{dataSelected.schedule_init}}</b> hasta <b class="font-bold">{{dataSelected.schedule_end}}</b> y tiene una frecuencia de salida <b class="font-bold"> {{dataSelected.frequency}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" (click)="activeData()">Activar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal" tabindex="-1" id="modalInactivateSchedule">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Deshabilitar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p *ngIf="dataSelected!=null && dataSelected.frequency==null">Desea deshabilitar el horario de la linea  <b class="font-bold">{{dataSelected.line}}</b> que tiene salida a<b class="font-bold">{{dataSelected.schedule}}</b></p>
+				<p *ngIf="dataSelected!=null && dataSelected.frequency!=null">Desea deshabilitar el horario de la linea  <b class="font-bold">{{dataSelected.line}} </b>  que trabaja desde<b class="font-bold"> {{dataSelected.schedule_init}}</b> hasta <b class="font-bold">{{dataSelected.schedule_end}}</b> y tiene una frecuencia de salida <b class="font-bold"> {{dataSelected.frequency}}</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="inactiveData()">Deshabilitar</button>
+			</div>
+		</div>
+	</div>
+</div>

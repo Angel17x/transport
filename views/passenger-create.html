@@ -1,0 +1,79 @@
+<div class="fixed-sn" >
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component>
+			<loading-service></loading-service>
+			<div class="row"  style="margin-top:15px;margin-bottom:10px;">
+    			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+    				<h2 class="Poppins-light">{{title}}</h2>
+    			</div>
+    		</div>
+			<form class="card" style="padding:15px;"id="form1">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="md-form md-outline" style="margin-bottom:0px;margin-top:15px;">
+							<input type="text" id="name"  name="name" class="form-control Poppins-regular" style="padding-top:8px;padding-bottom:8px;margin-bottom:0px;text-transform:uppercase;" [(ngModel)]="name" maxlength="100">
+							<label for="name" class="Poppins-regular {{etiqueta}}">Nombre</label>
+						</div>
+						<div style="margin-bottom:0px;margin-top:15px;">
+							<h6 class="Poppins-regular" style="font-size:11px;" lang="es">Tipo de documento</h6>
+							<div class="page">
+								<div class="page__toggle" style="display:inline-block;margin-right:5px;">
+									<label class="toggle">
+										<input class="toggle__input" type="checkbox" (click)="selectTypeDoc()"  [(ngModel)]="isRif" name="isRif">
+										<span class="toggle__label">
+											<span class="toggle__text Poppins-regular" lang="es">RIF</span>
+										</span>
+									</label>
+								</div>
+								<div class="page__toggle" style="display:inline-block;">
+									<label class="toggle">
+										<input class="toggle__input" type="checkbox"  (click)="selectTypeDoc()" [(ngModel)]="isCi" name="isCi">
+										<span class="toggle__label">
+											<span class="toggle__text Poppins-regular" lang="es">CI</span>
+										</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div style="margin-bottom:0px;margin-top:15px;">
+							<div style="display:inline-block;width:25%;">
+								<select  name="type" style="margin-bottom:0px;margin-top:0px;padding:0px;border-radius:4px;" [(ngModel)]="id_doc" class="browser-default custom-select Poppins-regular">
+									<option *ngFor='let item of listDocs' [value]="item" class="Poppins-regular">{{item}}</option>
+								</select>
+							</div>
+							<div style="display:inline-block;width:74%;">
+								<div class="md-form md-outline" style="margin-bottom:0px;margin-top:0px;">
+									<input type="text" inputmode="numeric" id="documento" name="documento" class="form-control Poppins-regular" style="padding-top:8px;padding-bottom:8px;margin-bottom:0px;" [(ngModel)]="doc" maxlength="9" onpaste="return false;" oncut="return false;" autocomplete="off">
+									<label for="documento" class="Poppins-regular">Documento</label>
+								</div>
+							</div>
+						</div>
+						<div class="md-form md-outline" style="margin-bottom:0px;margin-top:15px;">
+							<input type="email" id="email"  name="email" class="form-control Poppins-regular" style="padding-top:8px;padding-bottom:8px;margin-bottom:0px;text-transform:uppercase;" [(ngModel)]="email" maxlength="100">
+							<label for="email" class="Poppins-regular {{etiqueta}}">Correo electrónico</label>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+						<div class="md-form md-outline" style="margin-bottom:0px;margin-top:15px;">
+							<textarea type="text" id="direccion"  name="direccion" class="form-control Poppins-regular" style="padding-top:8px;padding-bottom:8px;margin-bottom:0px;text-transform:uppercase;" [(ngModel)]="direccion" maxlength="250"></textarea>
+							<label for="direccion" class="Poppins-regular {{etiqueta}}">Dirección</label>
+						</div>
+						<div class="md-form md-outline" style="margin-bottom:0px;margin-top:15px;">
+							<input type="text" id="phone"  name="phone" class="form-control Poppins-regular phone" style="padding-top:8px;padding-bottom:8px;margin-bottom:0px;" [(ngModel)]="phone" >
+							<label for="phone" class="Poppins-regular active">Télefono</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+						<button type="button" class="btn btn-light waves-effect d-none d-sm-inline-block Poppins-regular"(click)="back()"><i class="fa fa-undo"></i>Regresar</button>
+						<button type="button" class="btn botonSecundario waves-effect Poppins-regular" (click)="clean()"><i class="fa fa-trash"></i>&nbsp;Limpiar</button>
+						<button type="submit" class="btn botonPrincipal waves-effect Poppins-regular" (click)="done()"><i class="fa fa-save"></i>&nbsp;Guardar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</main>
+</div>

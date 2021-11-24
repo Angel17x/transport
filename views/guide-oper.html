@@ -1,0 +1,940 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+	<div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;"><br>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;width: 500px;">
+								<select aria-label="seleccione" class="form-select filtro-busqueda ng-pristine ng-valid ng-touched" role="tablist" id="manualSel" name="manualSel">
+									<option value="operador" selected>Manual de operador</option>
+								  	<option value="cambio" >Tasas de cambio</option>
+								  	<option value="linea">Linea</option>
+								  	<option value="propietario">Propietario</option>
+								  	<option value="Tvehiculos">Tipos de vehículos</option>
+								  	<option value="Automoviles">Automóviles</option>
+								  	<option value="Conductores">Conductores</option>
+								  	<option value="Paradas">Paradas</option>
+								  	<option value="Rutas">Rutas</option>
+								  	<option value="Tarifas">Tarifas</option>
+								  	<option value="Viajes">Viajes</option>
+								  	<option value="Chequear">Chequear viaje</option>
+								  	<option value="Reservaciones">Todas las reservaciones</option>
+								</select><label for="manual">Manual</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;width:250px;" type="button" (click)="seleccionarMan('CONSULTA')">Ver</button>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+								<tab class="tab-content">
+									<div id="ibeTab" class="tab-pane active" role="tabpanel" *ngIf="classInitTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirOperador" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Aplicaciones del operador</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera tendrá establecidas una serie de aplicaciones de acuerdo a su perfil y sus roles dentro de la plataforma, podrá detallarse cada una de las funcionalidades en la lista desplegable y seleccionando la opción correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/menu.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>											
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="TCambioTab" class="tab-pane active" role="tabpanel" *ngIf="classCambioTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Tasas de cambio</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá establecer la tasa de cambio correspondiente al día y así se reflejará automaticamente en todos y cada uno de los elementos que complementan la plataforma (reservas, boletos, reportes, entre otros).
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las ultimas tasas de cambio agregadas
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tasacambio.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nueva tasa</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva tasa de cambio, colocando el monto y la moneda correspondiente
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tasacambio1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/tasacambio2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="LineaTab" class="tab-pane active" role="tabpanel" *ngIf="classLineaTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Líneas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, modificar, ver detalle, desactivar y eliminar líneas según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las líneas agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nueva linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva línea, debe colocar la información correspondiente a la línea, requisito para este proceso es la creación del usuario que será representación de la línea en la plataforma, la recomendación es que tenga acceso al correo con el que se procede al registro ya que allí le llegará información relacionada a la plataforma.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Desactivar linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada línea en la plataforma en el reporte de líneas podrá desactivarse, desplegando el menú lateral en cada una de ellas y seleccionando la opción "desactivar línea"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Activar linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada línea en la plataforma en el reporte de líneas podrá activarse, desplegando el menú lateral en cada una de ellas y seleccionando la opción "activar línea"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada línea en la plataforma en el reporte de líneas podrá actualizarse, desplegando el menú lateral en cada una de ellas y seleccionando la opción "actualizar línea"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea10.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Detalles de la linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada línea en la plataforma en el reporte de líneas podrá visualizarse en detalle, desplegando el menú lateral en cada una de ellas y seleccionando la opción "detalles de la línea"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se podrá visualizar el reporte con la información correspondiente a la línea, el mismo podrá imprimirse.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea13.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar la linea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada línea en la plataforma en el reporte de líneas podrá ser eliminadas por el operador, desplegando el menú lateral en cada una de ellas y seleccionando la opción "Borrar línea"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/linea14.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea15.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/linea16.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="PropietarioTab" class="tab-pane active" role="tabpanel" *ngIf="classPropietarioTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Propietarios</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, modificar, desactivar, activar y eliminar propietarios de líneas según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nuevo propietario</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar un nuevo propietarios, debe colocar la información correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Desactivar propietario</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada propietario en la plataforma en el reporte de propietarios podrá desactivarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "desactivar propietario"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Activar propietario</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada propietario en la plataforma en el reporte de propietarios podrá activarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "activar propietario"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar propietario</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada propietario en la plataforma en el reporte de propietarios podrá actualizarse, desplegando el menú lateral en cada una de ellas y seleccionando la opción "actualizar propietario"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario10.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar propietario</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada propietario en la plataforma en el reporte de propietarios podrá ser eliminado por el operador, desplegando el menú lateral en cada una de ellas y seleccionando la opción "Borrar propietario"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/propietario12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario13.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/propietario14.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>																	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="TVehiculoTab" class="tab-pane active" role="tabpanel" *ngIf="classTVehiculoTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Tipos de vehículos</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, modificar, visualizar y eliminar tipos de vehículos según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de los tipos de vehículos agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nuevo tipo de vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar un nuevo tipo de vehiculo, colocando el nombre, la capacidad y las caracteristicas que pueda tener
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos2.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/Tvehiculos3.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Ver tipo de vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada tipo de vehículo en la plataforma en el reporte de tipos de vehículos podrá visualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "ver tipo de vehículo", el mismo reporte podrá imprimirse
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se podrá visualizar el reporte con la información correspondiente al tipo de vehiculo, el mismo podrá imprimirse.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar tipo de vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada tipo de vehículo en la plataforma en el reporte de tipos de vehículos podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar tipo de vehículo"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos5.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/Tvehiculos6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/Tvehiculos7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar tipo de vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada tipo de vehículo en la plataforma en el reporte de tipos de vehículos podrá ser eliminado por el operador, desplegando el menú lateral en cada una de ellos y seleccionando la opción "Borrar tipo de vehículo"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/Tvehiculos8.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/Tvehiculos9.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/Tvehiculos10.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>		
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="AutomovilTab" class="tab-pane active" role="tabpanel" *ngIf="classAutomovilTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Automóviles</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, modificar, visualizar y eliminar automóviles según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de los automóvil agregados en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nuevo automóvil</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar un nuevo automóvil, colocando el propietario, el tipo de vehículo y las caracteristicas del mismo
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/automoviles2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Ver datos del vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada automóvil en la plataforma en el reporte de automóviles podrá visualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "ver datos del vehículo", el mismo reporte podrá imprimirse
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se podrá visualizar el reporte con la información correspondiente al vehiculo, el mismo podrá imprimirse.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada vehículo en la plataforma en el reporte de vehículos podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar vehículo"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles5.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/automoviles6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/automoviles7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar vehículo</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada vehículo en la plataforma en el reporte de vehículos podrá ser eliminado por el operador, desplegando el menú lateral en cada una de ellos y seleccionando la opción "Borrar vehículo"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/automoviles8.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/automoviles9.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/automoviles10.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="conductoresTab" class="tab-pane active" role="tabpanel" *ngIf="classConductoresTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Conductores</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, modificar, visualizar y eliminar conductores según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de los conductores agregados en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nuevo conductor</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar un nuevo conductor, colocando la linea correspondiente y los datos del conductor.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/conductores2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Suspender conductor</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada conductor en la plataforma en el reporte de conductores podrá suspenderse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "suspender conductor".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Activar conductor</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada conductor en la plataforma en el reporte de conductores podrá activarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "activar conductor".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actuaizar conductor</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada conductor en la plataforma en el reporte de conductores podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar conductor".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores10.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar conductor</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada conductor en la plataforma en el reporte de conductores podrá ser eliminado por el operador, desplegando el menú lateral en cada una de ellos y seleccionando la opción "Eliminar conductor"
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/conductores12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/conductores13.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/conductores14.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="paradasTab" class="tab-pane active" role="tabpanel" *ngIf="classParadasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Paradas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, deshabilitar, habilitar y eliminar paradas según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las paradas agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nueva parada</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva parada, colocando código y el nombre correspondientes.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/paradas2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Deshabilitar parada</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada parada en la plataforma en el reporte de paradas podrá deshabilitarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "deshabilitar parada".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Activar parada</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada parada en la plataforma en el reporte de paradas podrá habilitarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "Activar parada".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Borrar parada</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada parada en la plataforma en el reporte de paradas podrá borrarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "borrar parada".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas8.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas9.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/paradas10.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+
+
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="rutasTab" class="tab-pane active" role="tabpanel" *ngIf="classRutasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Rutas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, desactivar, activar, actualizar, visualizar y eliminar rutas según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las rutas agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nueva ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva ruta, seleccionando la línea, los puntos de la ruta  y el código correspondientes.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/rutas2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>				
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Desactivar ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada ruta en la plataforma en el reporte de rutas podrá desactivarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "desactivar ruta".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Activar ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada ruta en la plataforma en el reporte de rutas podrá activarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "activar ruta".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada ruta en la plataforma en el reporte de rutas podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar ruta".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas10.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Ver ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada ruta en la plataforma en el reporte de rutas podrá visualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "ver ruta", el mismo reporte podrá imprimirse
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se podrá visualizar el reporte con la información correspondiente a la ruta.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas13.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>		
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Eliminar ruta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada ruta en la plataforma en el reporte de rutas podrá borrarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "eliminar ruta".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas14.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas15.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/rutas16.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>									
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="tarifasTab" class="tab-pane active" role="tabpanel" *ngIf="classTarifasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Tarifas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, actualizar y eliminar tarifas según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las tarifas agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nueva tarifa</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva tarifa, ingresando la información correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/tarifas2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar tarifa</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada tarifa en la plataforma en el reporte de tarifas podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar tarifa".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Eliminar tarifa</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada tarifa en la plataforma en el reporte de tarifas podrá borrarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "borrar tarifa".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/tarifas8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>						
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="viajesTab" class="tab-pane active" role="tabpanel" *ngIf="classViajesTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Viajes</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá crear, publicar, ingresar pasajeros, visualizar pasajeros, actualizar y eliminar viajes según dispongan los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de los viajes agregados en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Nuevo viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "Nuevo" el operador podrá agregar una nueva tarifa, ingresando la información correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>																						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardada la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/viajes2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Publicar viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada viaje en la plataforma en el reporte de viajes podrá publicarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "publicar viaje".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez publicado la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/viajes5.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Entrada rapida</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		A cada viaje en la plataforma en el reporte de viajes podrá incluirles pasajeros por entrada rapida, desplegando el menú lateral en cada una de ellos y seleccionando la opción "entrada rapida".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes6.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>						
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se incluiran los datos correspondientes a los pasajeros y se procede a dar click en el botón guardar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/viajes7.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez guardado la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/viajes8.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>							
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Pasajeros del viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En cada viaje en la plataforma en el reporte de viajes podrá visualizar la lista de pasajeros, desplegando el menú lateral en cada una de ellos y seleccionando la opción "pasajeros del viaje".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma desplegará la lista correspondiente a los pasajeros del viaje
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes10.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Actualizar viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada viaje en la plataforma en el reporte de viajes podrá actualizarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "actualizar viaje".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes11.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la nueva pantalla se actualizarán los datos correspondientes y se procede a dar click en el botón actualizar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes13.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>		
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Eliminar viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada viaje en la plataforma en el reporte de viajes podrá borrarse, desplegando el menú lateral en cada una de ellos y seleccionando la opción "borrar viaje".
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes14.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes15.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/viajes16.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>			
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="chequearTab" class="tab-pane active" role="tabpanel" *ngIf="classChequearTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Chequear viaje</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá chequear los viajes a través de la plataforma según disponen los lineamientos correspondientes en el instituto.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Chequear viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al llenar el formulario con los datos correspondientes al viaje y dar click en el botón "buscar" el operador podrá chequear por Sistema el viaje correspondientemente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/chequear.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>							
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/chequear1.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>											
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez confirmado la plataforma le enviará al usuario un mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/operador/chequear2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>						
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="reservacionesTab" class="tab-pane active" role="tabpanel" *ngIf="classReservacionesTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual operador</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Todas las reservaciones</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El operador de la aplicación Sistema terminal la bandera podrá visualizar el reporte de todas las reservaciones dentro de la plataforma
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/reservaciones.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las reservaciones agregadas en la plataforma, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/operador/reservaciones1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>					
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</tab>
+				</div>
+
+			</div>
+
+	</div>	
+</div>
+</main>

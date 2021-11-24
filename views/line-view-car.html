@@ -1,0 +1,109 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-line-view-cars" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="card" style="width:100%">
+						<div class="card-body">
+							<h5 class="card-title text-center" *ngIf="codigo!=null">{{codigo}} - {{nombre}}</h5>
+							<div class="table-responsive-vertical shadow-z-1 " style="margin-top:15px;" *ngIf="cars!=null && cars.length!=0">
+								<div style="margim-top:10px;margin-bottom:10px;display:flex;">
+									<h6 style="margin-right:10px;">Transporte activos:<label class="font-bold" style="color:#65ba69;">{{cars_activos}}</label></h6>
+									<h6 style="margin-right:10px;">Transporte deshabilitado:<label class="font-bold" style="color:#f44336;">{{cars_inactivos}}</label></h6>
+								</div>
+								<table id="table-car-view-prop" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Placa</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Carroceria</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Marca</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Color</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Año</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center">Capacidad</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Propietario</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Estatus</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of cars let i = index;">
+											<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{i+1}}
+											</td>
+											<td data-title="Placa" *ngIf="item.placa!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.placa}}
+											</td>
+											<td data-title="Placa" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.placa==null">
+																
+											</td>
+											<td data-title="Carroceria" *ngIf="item.carroceria!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.carroceria}}
+											</td>
+											<td data-title="Carroceria" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.carroceria==null">
+																
+											</td>
+											<td data-title="Marca" *ngIf="item.brand!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{item.brand}}
+											</td>
+											<td data-title="Marca" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.brand==null">
+																
+											</td>
+											<td data-title="Color" *ngIf="item.color!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{item.color}}
+											</td>
+											<td data-title="Color" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.color==null">
+																
+											</td>
+											<td data-title="Año" *ngIf="item.year!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center" scope="row">
+												&nbsp;{{item.year}}
+											</td>
+											<td data-title="Año" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center" scope="row" *ngIf="item.year==null">
+																
+											</td>
+											<td data-title="Cap" *ngIf="item.cap!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center" scope="row">
+												&nbsp;{{item.cap}}
+											</td>
+											<td data-title="Cap" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:center" scope="row" *ngIf="item.cap==null">
+																
+											</td>
+											<td data-title="Propietario" *ngIf="item.propietario!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												{{item.propietario}}
+											</td>
+											<td data-title="Propietario" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.propietario==null">
+																
+											</td>
+											<td data-title="Estatus" *ngIf="item.formatted_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row">
+												{{item.formatted_status}}
+											</td>
+											<td data-title="Estatus" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;text-align:right;" scope="row" *ngIf="item.formatted_status==null">
+																
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div  style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="cars==null || cars.length==0">
+								<h3 class="font-regular" style="color:#d0d6e2;">No hay unidades en esta línea de transporte</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

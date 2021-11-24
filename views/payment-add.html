@@ -1,0 +1,294 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<div  style="border:1px solid #bebebe;margin:5px;border-radius:5px;"class="row">
+                    <div style="background:#ede7f6;padding:10px;border-bottom:1px solid #b39ddb;">
+                        <div class="content-card-header">
+                            <div class="content-card-title" style='display:flex;'>
+                                <div class="icon icon-departure" style="margin-right:10px;">
+                                   
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h1 class="font-thin" style="font-size:30px;">Reserva #:&nbsp;<b class="font-regular">{{sequence}}</b>&nbsp;&nbsp;</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12"  style="padding:15px;border-right:1px solid #e0e0e0;">
+                            <p class="font-regular" style="font-size:15px;color:black;">
+                                <b class="font-bold">Salida</b><br>
+                                {{fecha_salida}}<br>
+                                {{hora}}
+                            </p>
+                            <h6 class="font-regular" style="margin-top:25px;font-size:15px;color:black;">{{parada}}</h6>
+                            <h1 class="font-thin" style="font-size:30px;margin-top:15px;color:black;">{{line_name}}</h1>
+                            <h6 class="font-regular" style="margin-top:10px;font-size:15px;color:black">{{vehicle_type_name}}</h6>
+                            <div style="text-align:right;margin-top:15px;">
+                                <h6 class="font-regular" style="font-size:15px;color:black;margin-bottom:15px;"><b>Total:{{number_of_passengers}} pasajes</b></h6>
+								<h6 class="font-regular" style="font-size:12px;margin-top:0px;" *ngIf="formatted_tasa_cambio!=null"><b class="font-regular">Tasa de Cambio BCV:&nbsp;&nbsp;</b><b>{{formatted_tasa_cambio}}</b></h6><br>
+                                <h6 class="font-regular" style="font-size:16px;margin-top:0px;" *ngIf="total_formatted_bs!=null"><b class="font-regular">Total en Bs:&nbsp;&nbsp;</b><b style="color:#43a047;">{{total_formatted_bs}}</b></h6><br>
+                                <h1 class="font-thin" style="font-size:30px;margin-top:10px;color:#43a047;">{{total_formatted}}</h1>
+                            </div>
+							<label class="font-bold" *ngIf="status!=null" style="margin-top:15px;color:#f44336;">({{status}})</label>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-12"  style="padding:15px;">
+                            <div class="row" style="margin-top:15px;">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-bottom:15px" *ngIf="listAsientos!=null && listAsientos!=''">
+									<h5 class="font-regular">Asientos:&nbsp;{{listAsientos}}</h5>
+								</div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 table-responsive-vertical shadow-z-1">
+                                   <table id="table1" class="table table-hover table-mc-light-blue" *ngIf="listItems!=null && listItems.length!=0">
+                                        <thead>
+                                            <tr>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Pasajero</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">RIF/CI</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Tipo</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;text-align:right;">Monto Unitario</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of listItems let i = index;" >
+                                                <td *ngIf="item.name!=null" data-title="Pasajero" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.name}}</label>
+                                                </td>
+                                                <td data-title="Pasajero" *ngIf="item.name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												 <td *ngIf="item.id_doc!=null" data-title="RIF/CI" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.id_doc}}</label>
+                                                </td>
+                                                <td data-title="RIF/CI" *ngIf="item.id_doc==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												<td *ngIf="item.formatted_type!=null" data-title="Tipo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.formatted_type}}</label>
+                                                </td>
+                                                <td data-title="Tipo" *ngIf="item.formatted_type==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+                                                <td *ngIf="item.monto!=null" data-title="Monto unitario" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.monto}}</label>
+                                                </td>
+                                                <td data-title="Monto unitario" *ngIf="item.monto==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    0,00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+									 <table id="table2" class="table table-hover table-mc-light-blue" *ngIf="listPayments!=null && listPayments.length!=0" style="margin-top:20px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Método de Pago</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Banco</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Referencia</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;text-align:right;">Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of listPayments let i = index;" >
+                                                <td *ngIf="item.metodo!=null" data-title="Metodo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.metodo}}</label>
+                                                </td>
+                                                <td data-title="Metodo" *ngIf="item.metodo==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												 <td *ngIf="item.banco!=null" data-title="Banco" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.banco}}</label>
+                                                </td>
+                                                <td data-title="Banco" *ngIf="item.banco==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												<td *ngIf="item.payer_reference!=null" data-title="Referencia" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.payer_reference}}</label>
+                                                </td>
+                                                <td data-title="Referencia" *ngIf="item.payer_reference==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+                                                <td *ngIf="item.formatted_amount!=null" data-title="Monto unitario" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.formatted_amount}}</label>
+                                                </td>
+                                                <td data-title="Monto unitario" *ngIf="item.formatted_amount==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    0,00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+									<div style="text-align:center;margin-bottom:10px;" *ngIf="status_question!='PAID'" >
+										<a class="btn btn-dark" (click)="openModalPayment()"><img src="assets/images/add.svg" width="24px" height="24px">Adicionar Pago</a>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+	</div>
+</main>
+<!--<div class="modal" tabindex="-1" id="modalMediosPago">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adicionar pago</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="form-check form-check-inline" style="margin-top:15px;">
+							<input type="radio" class="form-check-input" id="btnEfectivo" name="btnEfectivo" value="CASH" [(ngModel)]="typePayment" (click)="cleanData()">
+							<label class="form-check-label font-regular" style="font-size:16px;" for="btnEfectivo">&nbsp;Efectivo</label>
+                        </div>
+						<div class="form-check form-check-inline" style="margin-top:15px;" *ngIf="listPagoMovil!=null && listPagoMovil.length!=0">
+                            <input type="radio" class="form-check-input" id="btnPagoMovil" name="btnPagoMovil" value="PGO_MOVIL" [(ngModel)]="typePayment" (click)="cleanData()">
+                            <label class="form-check-label font-regular" style="font-size:16px;" for="btnPagoMovil">&nbsp;Pago Móvil</label>
+						</div>
+						<div class="form-check form-check-inline" style="margin-top:15px;" *ngIf="listTransferencias!=null && listTransferencias.length!=0">
+                            <input type="radio" class="form-check-input" id="btnTransferencia" name="btnTransferencia" value="TRANSFERENCIA" [(ngModel)]="typePayment" (click)="cleanData()">
+                            <label class="form-check-label font-regular" style="font-size:16px;" for="btnTransferencia">&nbsp;Transferencias del mismo banco</label>
+                        </div>
+						<div class="form-check form-check-inline" style="margin-top:15px;">
+							<input type="radio" class="form-check-input" id="btnPto" name="btnPto" value="PUNTO" [(ngModel)]="typePayment" (click)="cleanData()">
+							<label class="form-check-label font-regular" style="font-size:16px;" for="btnPto">&nbsp;Punto de venta</label>
+                        </div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-top:15px;" *ngIf="typePayment=='CASH' || typePayment=='PUNTO'">
+						<div class="form-floating" style="margin-top:5px;">
+                            <select class="form-select" id="currency" name="currency" aria-label="Seleccione moneda" [(ngModel)]="currency">
+                                <option  *ngFor="let item of listMonedas let i = index;" [value]="item.value" class="font-regular" style="font-size:14px;">{{item.name}}</option>
+                            </select>
+                            <label for="currency">Moneda</label>
+                        </div>
+						<div class="form-floating" style="margin-top:5px;">
+                            <input type="text" class="form-control" (focus)="focusMonto()" class="form-control" id="monto1" name="monto1" [(ngModel)]="monto" style="font-size:18px;">
+                            <label for="monto">Monto</label>
+                        </div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-top:15px;" *ngIf="typePayment=='PGO_MOVIL'">
+						<div class="form-floating" style="margin-top:5px;">
+                            <select class="form-select" id="currency" name="currency" aria-label="Seleccione moneda" [(ngModel)]="currency">
+                                <option  *ngFor="let item of listMonedas let i = index;" [value]="item.value" class="font-regular" style="font-size:14px;">{{item.name}}</option>
+                            </select>
+                            <label for="currency">Moneda</label>
+                        </div>
+						<div class="form-floating" style="margin-top:5px;">
+                            <input type="text" class="form-control" (focus)="focusMonto()" class="form-control" id="monto1" name="monto1" [(ngModel)]="monto" style="font-size:18px;">
+                            <label for="monto">Monto</label>
+                        </div>
+						
+						
+                        <div class="form-floating" style="margin-top:5px;">
+                            <input type="text" class="form-control" id="referencia_pago_movil" name="referencia_pago_movil" [(ngModel)]="referencia_pago_movil" maxlength="20">
+                            <label for="referencia_pago_movil">Referencia</label>
+                        </div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-top:15px;" *ngIf="typePayment=='TRANSFERENCIA'">
+						
+						
+                        
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="margin-top:15px;" *ngIf="typePayment!=null">
+					
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="addPayment()" [disabled]="typePayment==null || monto==null || monto=='0,00'">Adicionar</button>
+			</div>
+		</div>
+	</div>
+</div>-->
+<div class="modal" tabindex="-1" id="modalMediosPago">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adicionar pago</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div *ngIf="listPagos!=null && listPagos.length!=0">
+					<div class="row card" *ngFor="let item of listPagos let i = index;" style="padding:10px;background:#eeeeee;border-radius:5px;margin-bottom:5px;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+							<div style="display:flex;">
+								<div style="margin-right:5px;">
+									<a style="cursor:pointer;" (click)="deletePago(i)"><img src="assets/images/cancelar.svg" height="25px"></a>
+								</div>
+								<div  style="width:100%">
+									<div class="form-floating" style="margin-top:5px;">
+										<select class="form-select font-regular" id="type{{i}}" name="type{{i}}" aria-label="Seleccione el tipo" [(ngModel)]="item.type">
+											<option *ngFor="let item of listTipos let i = index;" [value]="item.value">{{item.name}}</option>
+										</select>
+										<label [attr.for]="'type' + i+' font-regular'">Tipo de pago</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;">
+										<select class="form-select" id="currency{{i}}" name="currency{{i}}" aria-label="Seleccione moneda" [(ngModel)]="item.currency">
+											<option  *ngFor="let item of listMonedas let i = index;" [value]="item.value" class="font-regular" style="font-size:14px;">{{item.name}}</option>
+										</select>
+										<label [attr.for]="'currency' + i+' font-regular'">Moneda</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;">
+										<input type="text" (focus)="focusMonto()" class="form-control moneda1" id="monto1{{i}}" name="monto1{{i}}" [(ngModel)]="item.monto" style="font-size:18px;">
+										<label [attr.for]="'monto1' + i+' font-regular'">Monto</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;" *ngIf="item.type=='MOBILE'">
+										<select class="form-select" id="banco{{i}}" name="banco{{i}}" aria-label="Seleccione cuenta" [(ngModel)]="item.banco">
+											<option  *ngFor="let item of listPagoMovil let i = index;" [value]="item.bank" class="font-regular" style="font-size:14px;">{{item.name}}</option>
+										</select>
+										<label [attr.for]="'banco' + i+' font-regular'">Bancos</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;" *ngIf="item.type=='TRANSFERENCE'">
+										<select class="form-select" id="banco{{i}}" name="banco{{i}}" aria-label="Seleccione cuenta" [(ngModel)]="item.banco">
+											<option  *ngFor="let item of listTransferencias let i = index;" [value]="item.bank" class="font-regular" style="font-size:14px;">{{item.name}}</option>
+										</select>
+										<label [attr.for]="'banco' + i+' font-regular'">Bancos</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;" *ngIf="item.type=='MOBILE'">
+										<input type="text" class="form-control" id="telefono_pago_movil{{i}}" name="telefono_pago_movil{{i}}" [(ngModel)]="item.telefono_pago_movil" maxlength="10">
+										<label [attr.for]="'telefono_pago_movil' + i+' font-regular'">Teléfono</label>
+									</div>
+									<div class="form-floating" style="margin-top:5px;" *ngIf="item.type=='TRANSFERENCE' || item.type=='MOBILE'">
+										<input type="text" class="form-control" id="referencia_pago_movil{{i}}" name="referencia_pago_movil{{i}}" [(ngModel)]="item.referencia_pago_movil" maxlength="20">
+										<label [attr.for]="'referencia_pago_movil' + i+' font-regular'">Referencia</label>
+									</div>
+								</div>
+							</div>						
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listItems!=null && listItems.length!=0">
+							<div *ngFor="let item of listItems let i = index;">
+								<div class="form-floating" style="margin-top:5px;">
+									<input type="text" class="form-control filtro-busqueda" id="asiento{{i}}" name="asiento{{i}}" [(ngModel)]="item.asiento" maxlength="10" style="text-transform:uppercase;">
+									<label [attr.for]="'asiento' + i" class="font-regular">Asiento ({{i+1}})</label>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;padding:10px;">
+						<a class="btn btn-dark" (click)="addPago()"><img src="assets/images/add.svg" width="24px" height="24px">Adicionar pago</a>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger" (click)="addPayment()">Adicionar</button>
+			</div>
+		</div>
+	</div>
+</div>

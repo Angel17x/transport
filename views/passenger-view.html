@@ -1,0 +1,34 @@
+<div class="fixed-sn" >
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component>
+			<loading-service></loading-service>
+			<div class="row"  style="margin-top:15px;margin-bottom:10px;">
+    			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+    				<h2 class="Poppins-light" style="margin-bottom:0px;">Detalles del pasajero</h2>
+					<h6 class="Poppins-bold titulo1" style="margin-top:0px;"></h6>
+    			</div>
+    		</div>
+			<form class="card" style="padding:15px;"id="form2">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<p class="Poppins-regular" style="text-align:left;margin-top:15px;">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="name!=null"><b class="Poppins-bold titulo2">Nombre:&nbsp;</b>{{name}} </label><br *ngIf="name!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="documento!=null"><b class="Poppins-bold titulo2">#.Documento:&nbsp;</b>{{documento}}</label><br  *ngIf="documento!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="email!=null"><b class="Poppins-bold titulo2">Correo electrónico:&nbsp;</b>{{email}}</label><br  *ngIf="email!=null">
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="phone!=null"><b class="Poppins-bold titulo2">Teléfono:&nbsp;</b>{{email}}</label><br  *ngIf="phone!=null">	
+							<label class="Poppins-regular" style="margin-top:2px;margin-top:2px;" *ngIf="direccion!=null"><b class="Poppins-bold titulo2">Dirección:&nbsp;</b>{{direccion}}</label><br  *ngIf="direccion!=null">									
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+						<button type="button" class="btn btn-light waves-effect d-none d-sm-inline-block Poppins-regular"(click)="back()"><i class="fa fa-undo"></i>Regresar</button>
+						<button type="submit" class="btn botonPrincipal waves-effect Poppins-regular" (click)="print()"><i class="fa fa-print"></i>&nbsp;Imprimir</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</main>
+</div>

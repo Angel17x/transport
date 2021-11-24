@@ -1,0 +1,99 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row" style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-fast-entry-line" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-sm">
+					<label class="font-regular" *ngIf="linea!=null"><b class="font-bold">Línea:&nbsp;</b>{{linea}}</label><br *ngIf="linea!=null">
+					<label class="font-regular" *ngIf="viaje!=null"><b class="font-bold">Nro.viaje:&nbsp;</b>{{viaje}}</label><br *ngIf="viaje!=null">
+					<label class="font-regular" *ngIf="fecha!=null"><b class="font-bold">Fecha del viaje:&nbsp;</b>{{fecha}}</label><br *ngIf="fecha!=null">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listPassenger!=null && listPassenger.length!=0">
+					<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+						<table id="table-add-feature" class="table table-hover table-mc-light-blue" *ngIf="listPassenger!=null && listPassenger.length!=0">
+							<thead>
+								<tr>
+									<th class="font-bold" style="text-align:left;">RIF/CI</th>
+									<th class="font-bold" style="text-align:left;">Nombres y Apellidos</th>
+									<th class="font-bold" style="text-align:left;">Tipo</th>
+									<th class="font-bold" style="text-align:left;">Destino</th>
+									<th class="font-bold" style="text-align:right;"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let item of listPassenger let i = index;">
+									<td  class="font-regular"  style="text-align:left;padding:5px;">
+										<div style="display:flex;">
+											<div>
+												<div class="form-floating" style="margin-right:5px;margin-top:5px;">
+													<select class="form-select font-regular" id="id_doc{{i}}" name="id_doc{{i}}" aria-label="Seleccione el tipo" [(ngModel)]="item.id_doc" style="width:100px;">
+														<option *ngFor="let item of listDocs let i = index;" [value]="item">{{item}}</option>
+													</select>
+													<label [attr.for]="'id_doc' + i+' font-regular'">Tipo</label>
+												</div>
+											</div>
+											<div style="width:100%;">
+												<div  class="form-floating" style="margin-top:5px;">
+													<input autocomplete="off" type="text" class="form-control font-regular" id="doc{{i}}" name="doc{{i}}" [(ngModel)]="item.doc" maxlength="9" (keypress)="keyPressNumber($event)">
+													 <label [attr.for]="'doc' + i" class="font-regular">RIF/CI</label>
+												</div>
+											</div>
+										</div>
+									</td>
+									<td  class="font-regular"  style="text-align:left;padding:5px;">
+										 <div class="form-floating" style="margin-top:5px;">
+											<input type="text" autocomplete="off" class="form-control font-regular" id="name{{i}}" name="name{{i}}" [(ngModel)]="item.name" style="text-transform:uppercase;" maxlength="40">
+											<label [attr.for]="'name' + i" class="font-regular">Nombres Apellidos</label>
+										</div>
+									</td>
+									<td  class="font-regular"  style="text-align:left;padding:5px;">
+										<div class="form-floating" style="margin-right:5px;margin-top:5px;">
+											<select class="form-select font-regular" id="type{{i}}" name="type{{i}}" aria-label="Seleccione el tipo" [(ngModel)]="item.type">
+												<option *ngFor="let item of listTypes let i = index;" [value]="item.value">{{item.name}}</option>
+											</select>
+											<label [attr.for]="'type' + i+' font-regular'">Tipo Pasaje</label>
+										</div>
+									</td>
+									<td  class="font-regular"  style="text-align:left;padding:5px;">
+										<div class="form-floating" style="margin-right:5px;margin-top:5px;">
+											<select class="form-select font-regular" id="destino{{i}}" name="destino{{i}}" aria-label="Seleccione el destino" [(ngModel)]="item.destino">
+												<option *ngFor="let item of listTarifas let i = index;" [value]="item.id">{{item.destination_stop_name}}</option>
+											</select>
+											<label [attr.for]="'destino' + i+' font-regular'">Destino</label>
+										</div>
+									</td>
+									<td data-title="Acciones" class="font-regular" style="text-align:right;padding:5px;vertical-align:middle;">
+										<a (click)="deletePassenger(i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<a class="font-bold" (click)="addPassenger()" *ngIf="listPassenger!=null && listPassenger.length!=0" style="float:right;text-decoration:underline;margin-top:0px;cursor:pointer;">
+							<img src="assets/images/add_black.svg" width="24px" height="24px">Nuevo pasajero
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listPassenger==null || listPassenger.length==0" style="text-align:center;padding:20px;">
+					<a class="btn btn-dark" (click)="addPassenger()"><img src="assets/images/add.svg" width="24px" height="24px">Nuevo pasajero</a>
+				</div>
+			</div>
+			<div  class="row" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:5px;font-size:14px;" (click)="back()">Regresar</button>
+					<button type="button" class="btn btn-dark btn-lg" style="margin:5px;font-size:14px;" (click)="clean()">Limpiar</button>
+					<button class="btn button-done btn-lg" style="margin:5px;font-size:14px;" (click)="done()">Guardar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

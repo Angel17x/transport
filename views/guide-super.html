@@ -1,0 +1,267 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+	<div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;"><br>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;width: 500px;">
+								<select aria-label="seleccione" class="form-select filtro-busqueda ng-pristine ng-valid ng-touched" role="tablist" id="manualSel" name="manualSel">
+									<option value="supervisor" selected>Manual de supervisor</option>
+								  	<option value="reservaciones" >Reservaciones</option>
+								  	<option value="ventas" >Ventas detalladas</option>
+								  	<option value="viajes" >Viajes de la línea</option>
+								</select><label for="manual">Manual</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;width:250px;" type="button" (click)="seleccionarMan('CONSULTA')">Ver</button>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+								<tab class="tab-content">
+									<div id="ibeTab" class="tab-pane active" role="tabpanel" *ngIf="classInitTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirOperador" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual supervisor</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Aplicaciones del supervisor</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El supervisor de la aplicación Sistema terminal la bandera tendrá establecidas una serie de aplicaciones de acuerdo a su perfil y sus roles dentro de la plataforma, podrá detallarse cada una de las funcionalidades en la lista desplegable y seleccionando la opción correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/menu.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>											
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="ReservacionesTab" class="tab-pane active" role="tabpanel" *ngIf="classReservacionesTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual supervisor</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Reservaciones</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El supervisor de la aplicación Sistema terminal la bandera podrá eliminar reservaciones (si no ha sido validado el pago), adicionar pagos a la reservación y visualizar las reservaciones.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las reservaciones correspondientes a la línea que representa.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Eliminar reservación</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada reservación en la plataforma en el reporte de reservaciones podrá borrarse (siempre que no se encuentre validado el pago), desplegando el menú lateral en cada una de ellos y seleccionando la opción "eliminar reservación".
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones3.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Adicionar pago</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		A cada una de las reservaciones en la plataforma en el reporte correspondientes se le podrá adicionar un pago, desplegando el menú lateral en cada una de ellos y seleccionando la opción "adicionar pago".
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Se mostrará el detalle de la reserva y se procederá a dar click en el botón "Adicionar pago", esto con la finalidad de adicionar cada uno de los pagos correspondientes a la reserva.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones5.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		En la ventana desplegada se selecionara la opción correspondiente al "tipo de pago" y se llenarán los datos correspondienes al pago (Con 2 decimales), se agrega el asiento correspondiente y se adiciona el pago.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Si existe algún error en el pago (antes de realizar el pago de la totalidad del monto), el supervisor podrá eliminar el pago errado en la "X" que se encuentra en el registro del pago a eliminar
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones8.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma solicitará al supervisor el motivo por el que se procede a eliminar el pago
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones9.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones10.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Ver reservación</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada reservación en la plataforma en el reporte de reservaciones podrá visualizarse en detalle, desplegando el menú lateral en cada una de ellas y seleccionando la opción "ver reservación"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones11.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente la plataforma mostrará el detalle de la reservación
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/reservaciones12.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="ventasTab" class="tab-pane active" role="tabpanel" *ngIf="classVentasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirOperador" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual supervisor</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Ventas detalladas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El supervisor de la aplicación Sistema terminal la bandera tendrá a su disposición el reporte de ventas detalladas por día
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/ventas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		Ingresando en el menú correspondiente, colocando la fecha que se desea consultar y dando click en el botón "buscar" la plataforma le mostrará el reporte correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/ventas1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>							
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="viajesTab" class="tab-pane active" role="tabpanel" *ngIf="classViajesTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirOperador" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual supervisor</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Viajes de la línea</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El supervisor de la aplicación Sistema terminal la bandera tendrá a su disposición el reporte de viajes de la línea.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el supervisor podrá ver el detalle de los viajes agregadas en la plataforma por el operador, pudiendo filtrar por cualquiera de los elementos que allí se encuentran para poder facilitar la busqueda correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>		
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Entrada rápida línea</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		A cada viaje en la plataforma en el reporte de viajes se le podrá ingresar pasajeros, desplegando el menú lateral en cada una de ellas y seleccionando la opción "entrada rápida linea"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		El supervisor deberá dar click en el botón "Nuevo pasajero"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes2.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Se desplegarán los campos correspondientes para ingresar la información del/los pasajeros, una vez ingresada la data correspondiente, el supervisor debe dar click en el botón "Guardar"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>							
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes4.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Cerrar viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Cada viaje en la plataforma en el reporte de viajes podrá ser cerrado por el supervisor, desplegando el menú lateral en cada una de ellas y seleccionando la opción "cerrar viaje"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes5.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes6.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes7.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Pasajeros del viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		El supervisor podrá visualizar la lista de parajeros correspondiente a cada viaje en la plataforma, desplegando el menú lateral en cada una de ellas y seleccionando la opción "pasajeros del viaje"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes8.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma mostrará el listado de los pasajeros con la información correspondiente de cada registro.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes9.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Transbordo de pasajeros</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		El supervisor podrá transbordar los parajeros correspondientes a cada viaje en la plataforma, en el reporte de pasajeros del viaje podrá seleccionarse el/los pasajeros a trasbordar y dar click en el botón trasbordar. Lo que desplegará una lista para proceder a buscar los viajes disponibles para trasbordo.
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes10.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes11.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes12.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Eliminar viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		El supervisor podrá eliminar de la lista de parajeros correspondiente a cada viaje en la plataforma, desplegando el menú lateral en cada una de ellas y seleccionando la opción "eliminar viaje"
+																	</p><br>
+																	<img src="assets/images/Manuales/supervisor/viajes13.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al operador un mensaje que deberá confirmar
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes14.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>	
+																	<img src="assets/images/Manuales/supervisor/viajes15.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</tab>
+				</div>
+			</div>
+
+	</div>	
+</div>
+</main>

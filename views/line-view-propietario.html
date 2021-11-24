@@ -1,0 +1,81 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-line-view-propietarios" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="card" style="width:100%">
+						<div class="card-body">
+							<h5 class="card-title text-center" *ngIf="codigo!=null">{{codigo}} - {{nombre}}</h5>
+							<div class="table-responsive-vertical shadow-z-1 " style="margin-top:15px;" *ngIf="propietarios!=null && propietarios.length!=0">
+								<div style="margim-top:10px;margin-bottom:10px;display:flex;">
+									<h6 style="margin-right:10px;">Propietarios activos:<label class="font-bold" style="color:#65ba69;">{{propietarios_activos}}</label></h6>
+									<h6 style="margin-right:10px;">Propietarios suspendidos:<label class="font-bold" style="color:#f44336;">{{propietarios_suspendidos}}</label></h6>
+								</div>
+								<table id="table-car-view-prop" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">RIF/CI</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Nombre</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Teléfono</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Correo electrónico</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of propietarios let i = index;">
+											<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{i+1}}
+											</td>
+											<td data-title="RIF/CI" *ngIf="item.id_doc!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.id_doc}}
+											</td>
+											<td data-title="RIF/CI" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.id_doc==null">
+																
+											</td>
+											<td data-title="Nombre" *ngIf="item.business_name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.business_name}}
+											</td>
+											<td data-title="Nombre" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.business_name==null">
+																
+											</td>
+											<td data-title="Teléfono" *ngIf="item.phone_deflt!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.phone_deflt}}
+											</td>
+											<td data-title="Teléfono" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.phone_deflt==null">
+																
+											</td>
+											<td data-title="Email" *ngIf="item.email_deflt!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.email_deflt}}
+											</td>
+											<td data-title="Email" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.email_deflt==null">
+																
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div  style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="propietarios==null || propietarios.length==0">
+								<h3 class="font-regular" style="color:#d0d6e2;">No hay propietarios en esta línea de transporte</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

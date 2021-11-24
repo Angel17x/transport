@@ -1,0 +1,153 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+    <div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Ventas</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Ventas</h6>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Fecha salida(Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="end" name="end" [(ngModel)]="end">
+								<label for="end">Fecha salida(Fin)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="destino" name="destino" [(ngModel)]="destino" maxlength="50" style="text-transform:uppercase;">
+								<label for="linea">Destino</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="viaje" name="viaje" [(ngModel)]="viaje" maxlength="10" style="text-transform:uppercase;" (keypress)="keyPressNumber($event)">
+								<label for="viaje"># Viaje</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="pasajero" name="pasajero" [(ngModel)]="pasajero" maxlength="40" style="text-transform:uppercase;" >
+								<label for="pasajero">Pasajero</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+							<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+								<table id="table" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Fecha</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Reservación</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Viaje</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:left;">Destino</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Pasajero</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">RIF/CI</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Tipo</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Tasa de cambio</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Total en Divisas</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Total en Bs</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listRegister let i = index;">
+											<td data-title="Fecha" class="font-regular" *ngIf="item.formatted_trip_departure_date!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.formatted_trip_departure_date}}
+											</td>
+											<td data-title="Fecha" *ngIf="item.formatted_trip_departure_date==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Reservación" class="font-regular" *ngIf="item.reservation_sequence!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.reservation_sequence}}
+											</td>
+											<td data-title="Reservación" *ngIf="item.reservation_sequence==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Viaje" class="font-regular" *ngIf="item.trip_sequence!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+												&nbsp;{{item.trip_sequence}}
+											</td>
+											<td data-title="Viaje" *ngIf="item.trip_sequence==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Destino" class="font-regular" *ngIf="item.destination_stop_name!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.destination_stop_name}}
+											</td>
+											<td data-title="Destino" *ngIf="item.destination_stop_name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Pasajero" class="font-regular" *ngIf="item.name!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.name}}
+											</td>
+											<td data-title="Pasajero" *ngIf="item.name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="RIF/CI" class="font-regular" *ngIf="item.id_doc!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.id_doc}}
+											</td>
+											<td data-title="RIF/CI" *ngIf="item.id_doc==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Tipo" class="font-regular" *ngIf="item.formatted_type!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.formatted_type}}
+											</td>
+											<td data-title="Tipo" *ngIf="item.formatted_type==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;
+											</td>
+											<td data-title="Tasa de cambio" class="font-regular" *ngIf="item.tasa!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.tasa}}
+											</td>
+											<td data-title="Tasa de cambio" *ngIf="item.tasa==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												
+											</td>
+											<td data-title="Divisas" class="font-regular" *ngIf="item.formatted_dolars!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+												&nbsp;{{item.formatted_dolars}}
+											</td>
+											<td data-title="Divisas" *ngIf="item.formatted_dolars==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+												
+											</td>
+											<td data-title="Bs" class="font-regular" *ngIf="item.formatted_bs!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+												&nbsp;{{item.formatted_bs}}
+											</td>
+											<td data-title="Bs" *ngIf="item.formatted_bs==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+												
+											</td>
+										</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</main>

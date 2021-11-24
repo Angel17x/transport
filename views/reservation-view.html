@@ -1,0 +1,134 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<div  style="border:1px solid #bebebe;margin:5px;border-radius:5px;"class="row">
+                    <div style="background:#ede7f6;padding:10px;border-bottom:1px solid #b39ddb;">
+                        <div class="content-card-header">
+                            <div class="content-card-title" style='display:flex;'>
+                                <div class="icon icon-departure" style="margin-right:10px;">
+                                   
+                                </div>
+                                <div style="margin-left:10px;">
+                                    <h1 class="font-thin" style="font-size:30px;">Reserva #:&nbsp;<b class="font-regular">{{sequence}}</b>&nbsp;&nbsp;</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-12"  style="padding:15px;border-right:1px solid #e0e0e0;">
+                            <p class="font-regular" style="font-size:15px;color:black;">
+                                <b class="font-bold">Salida</b><br>
+                                {{fecha_salida}}<br>
+                                {{hora}}
+                            </p>
+                            <h6 class="font-regular" style="margin-top:25px;font-size:15px;color:black;">{{parada}}</h6>
+                            <h1 class="font-thin" style="font-size:30px;margin-top:15px;color:black;">{{line_name}}</h1>
+                            <h6 class="font-regular" style="margin-top:10px;font-size:15px;color:black">{{vehicle_type_name}}</h6>
+                            <div style="text-align:right;margin-top:15px;">
+                                <h6 class="font-regular" style="font-size:15px;color:black;margin-bottom:15px;"><b>Total:{{number_of_passengers}} pasajes</b></h6>
+								<h6 class="font-regular" style="font-size:12px;margin-top:0px;" *ngIf="formatted_tasa_cambio!=null"><b class="font-regular">Tasa de Cambio BCV:&nbsp;&nbsp;</b><b>{{formatted_tasa_cambio}}</b></h6><br>
+                                <h6 class="font-regular" style="font-size:16px;margin-top:0px;" *ngIf="total_formatted_bs!=null"><b class="font-regular">Total en Bs:&nbsp;&nbsp;</b><b style="color:#43a047;">{{total_formatted_bs}}</b></h6><br>
+                                <h1 class="font-thin" style="font-size:30px;margin-top:10px;color:#43a047;">{{total_formatted}}</h1>
+                            </div>
+							<label class="font-bold" *ngIf="status!=null" style="margin-top:15px;color:#f44336;">({{status}})</label>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-12 col-12"  style="padding:15px;">
+                            <div class="row" style="margin-top:15px;">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-12 table-responsive-vertical shadow-z-1 ">
+                                   <table id="table1" class="table table-hover table-mc-light-blue" *ngIf="listItems!=null && listItems.length!=0">
+                                        <thead>
+                                            <tr>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Pasajero</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">RIF/CI</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Tipo</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;text-align:right;">Monto Unitario</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of listItems let i = index;" >
+                                                <td *ngIf="item.name!=null" data-title="Pasajero" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.name}}</label>
+                                                </td>
+                                                <td data-title="Pasajero" *ngIf="item.name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												 <td *ngIf="item.id_doc!=null" data-title="RIF/CI" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.id_doc}}</label>
+                                                </td>
+                                                <td data-title="RIF/CI" *ngIf="item.id_doc==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												<td *ngIf="item.formatted_type!=null" data-title="Tipo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.formatted_type}}</label>
+                                                </td>
+                                                <td data-title="Tipo" *ngIf="item.formatted_type==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+                                                <td *ngIf="item.monto!=null" data-title="Monto unitario" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.monto}}</label>
+                                                </td>
+                                                <td data-title="Monto unitario" *ngIf="item.monto==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    0,00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+									 <table id="table2" class="table table-hover table-mc-light-blue" *ngIf="listPayments!=null && listPayments.length!=0" style="margin-top:20px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Método de Pago</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Banco</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;">Referencia</th>
+                                                <th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:16px;text-align:right;">Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of listPayments let i = index;" >
+                                                <td *ngIf="item.metodo!=null" data-title="Metodo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.metodo}}</label>
+                                                </td>
+                                                <td data-title="Metodo" *ngIf="item.metodo==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												 <td *ngIf="item.banco!=null" data-title="Banco" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.banco}}</label>
+                                                </td>
+                                                <td data-title="Banco" *ngIf="item.banco==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+												<td *ngIf="item.payer_reference!=null" data-title="Referencia" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.payer_reference}}</label>
+                                                </td>
+                                                <td data-title="Referencia" *ngIf="item.payer_reference==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;" scope="row">
+                                                    
+                                                </td>
+                                                <td *ngIf="item.formatted_amount!=null" data-title="Monto unitario" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    &nbsp;<label class="font-regular" style="font-size:14px;">{{item.formatted_amount}}</label>
+                                                </td>
+                                                <td data-title="Monto unitario" *ngIf="item.formatted_amount==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:15px;margin-bottom:0px;margin-top:0px;text-align:right;" scope="row">
+                                                    0,00
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+	</div>
+</main>

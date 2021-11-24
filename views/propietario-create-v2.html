@@ -1,0 +1,105 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-device-assign" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione la linea</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Linea" class="form-control" placeholder="Linea" id="linea" name="linea" [(ngModel)]="linea">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="searchLine()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterLine!=null && listRegisterLine.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegisterLine let i = index;" (click)="selectLine(item)">
+							<div class="card-body" style="padding:0px;">
+								<label style="font-size:12px;" class="font-regular">{{item.name}}</label>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActualLine.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPaginaLine"
+							[totalPageRecords]="totalPageLine"
+							[pageSelected]="pageSelectedLine"
+							(cantidadTransaccionesTabla)="getCantidadSelectedLine($event)"
+							(valueFirst)="getValueFirstLine($event)"
+							(valuePrevious)="getValuePreviousLine($event)"
+							(valueNext)="getValueNextLine($event)"
+							(valueLast)="getValueLastLine($event)"
+							(valueChangeRecords)="getValueChangeRecordsLine($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterLine==null || listRegisterLine.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay lineas de transporte</h6>
+					</div>
+				</div>
+				<div [class]="clase">
+					<div style="margin-top:15px">
+						<div *ngIf="lineSelected!=null">
+							<div style="display:inline-block;margin-right:5px;">
+								<h6 style="text-decoration:underline;">Linea seleccionada</h6>
+							</div>
+							<div style="display:inline-block;" *ngIf="save">
+								<img src="assets/images/cancelar.svg" height="15px" style="cursor:pointer;" (click)="quitarLinea()"/>
+							</div>
+						</div>
+						<p  *ngIf="lineSelected!=null">
+							<label style="font-size:16px;"><b class="font-bold">Nombre:&nbsp;</b>{{lineSelected.name}}</label><br *ngIf="lineSelected.name">
+						</p>
+						<div  style="display:flex">
+							<div>
+								<div class="form-floating" style="margin-top:10px;margin-right:5px;">
+									<select class="form-select filtro-busqueda" id="id_doc" name="id_doc" aria-label="Seleccione el tipo" [(ngModel)]="id_doc" style="width:100px;" [disabled]="!save">
+										<option *ngFor="let item of listDocs let i = index;" [value]="item">{{item}}</option>
+									</select>
+									<label for="id_doc">Tipo</label>
+								</div>
+							</div>
+							<div style="width:100%;">
+								<div  class="form-floating" style="margin-top:10px;">
+									<input type="text" class="form-control filtro-busqueda" id="doc" name="doc" [(ngModel)]="doc" maxlength="9" (keypress)="keyPress($event)" style="text-transform:uppercase;" [disabled]="!save">
+									<label for="doc">RIF/CI</label>
+								</div>
+							</div>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;" *ngIf="id_doc=='V' || id_doc=='E'">
+							<input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" maxlength="50" style="text-transform:uppercase;">
+							<label for="nombre">Nombres</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;" *ngIf="id_doc=='V' || id_doc=='E'">
+							<input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="apellido" maxlength="50" style="text-transform:uppercase;">
+							<label for="apellido">Apellidos</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;" *ngIf="id_doc=='G' || id_doc=='J'">
+							<input type="text" class="form-control" id="business_name" name="business_name" [(ngModel)]="business_name" maxlength="50" style="text-transform:uppercase;">
+							<label for="business_name">Razón Social</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="telefono" name="telefono" [(ngModel)]="telefono" maxlength="10" style="text-transform:uppercase;" (keypress)="keyPress($event)">
+							<label for="telefono">Teléfono</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="email" name="email" [(ngModel)]="email" maxlength="50" style="text-transform:lowercase;">
+							<label for="email">Correo electrónico</label>
+						</div>
+						<div style="text-align:right;">
+							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+							<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn-lg button-done" style="margin:10px;font-size:14px;" (click)="done()">{{texto}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

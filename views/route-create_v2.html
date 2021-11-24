@@ -1,0 +1,154 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row" style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-device-assign" style="margin-top:15px;">
+			<div class="row">
+				<div [class]="classView1" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione la linea</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Linea" class="form-control" placeholder="Linea" id="linea" name="linea" [(ngModel)]="linea">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="searchLine()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterLine!=null && listRegisterLine.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegisterLine let i = index;" (click)="selectLine(item)">
+							<div class="card-body" style="padding:0px;">
+								<label style="font-size:12px;" class="font-regular">{{item.name}}</label>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActualLine.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPaginaLine"
+							[totalPageRecords]="totalPageLine"
+							[pageSelected]="pageSelectedLine"
+							(cantidadTransaccionesTabla)="getCantidadSelectedLine($event)"
+							(valueFirst)="getValueFirstLine($event)"
+							(valuePrevious)="getValuePreviousLine($event)"
+							(valueNext)="getValueNextLine($event)"
+							(valueLast)="getValueLastLine($event)"
+							(valueChangeRecords)="getValueChangeRecordsLine($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterLine==null || listRegisterLine.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay lineas de transporte</h6>
+					</div>
+				</div>
+				<div [class]="classView2">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione los puntos</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Nombre" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="search()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegister let i = index;" (click)="selectedParada(item)">
+							<div class="card-body" style="padding:0px;">
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;">{{item.name}} ({{item.code}})</h6>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActual.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage"
+							[pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)"
+							(valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)"
+							(valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister==null || listRegister.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay puntos seleccionados</h6>
+					</div>
+				</div>		
+				<div [class]="classView3">
+					<div style="margin-top:15px">
+						<div *ngIf="lineSelected!=null">
+							<div style="display:inline-block;margin-right:5px;">
+								<h6 style="text-decoration:underline;">Linea seleccionada</h6>
+							</div>
+							<div style="display:inline-block;" *ngIf="save">
+								<img src="assets/images/cancelar.svg" height="15px" style="cursor:pointer;" (click)="quitarLinea()"/>
+							</div>
+						</div>
+						<p  *ngIf="lineSelected!=null">
+							<label style="font-size:12px;"><b class="font-bold">Nombre:&nbsp;</b>{{lineSelected.name}}</label><br *ngIf="lineSelected.name">
+						</p>
+						<div  class="form-floating" *ngIf="lineSelected!=null"  style="margin-top:10px;">
+							<input type="text" class="form-control" id="code" name="code" [(ngModel)]="code" maxlength="7" style="text-transform:uppercase;">
+							<label for="code">Código</label>
+						</div>
+						<div style="margin-top:15px;" *ngIf="lineSelected!=null">
+							<div class="form-floating">
+								<select class="form-select filtro-busqueda" id="type" name="type" (change)="changeType()" aria-label="Seleccione el tipo" [(ngModel)]="type">
+									<option *ngFor="let item of listTypes let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="type">Tipo de ruta</label>
+							</div>
+						</div>
+						<div style="margin-top:15px;display:flex;" *ngIf="lineSelected!=null && type=='SHORT_ROUTE'">
+							<div class="form-floating" style="width:100%;margin-right:10px;">
+								<select class="form-select" id="currency" name="currency" aria-label="Seleccione la moneda" [(ngModel)]="currency">
+									<option *ngFor="let item of listCurrency let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="currency">Moneda</label>
+							</div>
+							<div class="form-floating" style="width:100%">
+								<input type="text" inputmode="numeric" (keyup)="devolverEvent($event)" (keypress)="getEventMonto($event)" (click)="moveCursorToEnd()" (keydown)="keyDown($event)" (focus)="moveCursorToEnd()" (change)="changeAmount($event)" (input)="inputEvent($event)" onpaste="return false;" oncut="return false;" class="form-control" id="monto" name="monto" [(ngModel)]="monto" maxlength="30">
+								<label for="monto">Monto de la tasa</label>
+							</div>
+						</div>
+						<div *ngIf="listTrayectos!=null && listTrayectos.length!=0" style="margin-top:15px;">
+							<h6 style="text-decoration:underline;">Trayectos</h6>
+								<div id="timeline">
+								<div class="row timeline-movement timeline-movement-top">
+									<div class="timeline-badge timeline-filter-movement">
+										<a>
+											<img src="assets/images/watch_later.svg"/>
+										</a>
+									</div>
+								</div>
+								<div class="row timeline-movement" *ngFor="let item of listTrayectos let i = index;">
+									<div class="timeline-badge timeline-filter-movement">
+										<span class="timeline-balloon-date-day">{{i}}</span>
+									</div>
+									<div class="col-sm-6  timeline-item">
+										<div class="row">
+											<div class="col-sm-11">
+												<div class="timeline-panel credits">
+													<ul class="timeline-panel-ul">
+														<li><img src="assets/images/cancelar.svg" height="10px" style="cursor:pointer;" (click)="quitarPunto(i,item)"/><span class="importo">&nbsp;{{item.name}} ({{item.code}})</span></li>
+														<input [(ngModel)]="item.punto_salida" name="trayecto-salida{{i}}" id="trayecto-salida{{i}}" style="font-size:12px;" placeholder="Nombre del punto">
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div style="text-align:right;">
+							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+							<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn-lg button-done" style="margin:10px;font-size:14px;" (click)="done()">{{texto}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

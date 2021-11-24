@@ -1,0 +1,202 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-line-create" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione el representate</h6>
+					<div class="input-group">
+						<input type="text" aria-label="RIF/CI" class="form-control" placeholder="RIF/CI" id="rif_buscar" name="rif_buscar" [(ngModel)]="rif_buscar">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Nombre" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="search()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegister let i = index;" (click)="selectedPropietario(item)">
+							<div class="card-body" style="padding:0px;">
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;">{{item.business_name}} ({{item.id_doc}})</h6>
+								<p style="margin-bottom:0px;margin-top:0px;font-size:12px;color:#616161;" *ngIf="item.email_deflt!=null">{{item.email_deflt}}</p>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActual.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage"
+							[pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)"
+							(valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)"
+							(valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister==null || listRegister.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay representates</h6>
+					</div>
+				</div>
+				<div [class]="classCreate" style="margin-top:20px;">
+					<div class="card" *ngIf="profileSelected!=null" style="padding:10px;">
+						<div style="display:flex;">
+							<h6><b class="font-bold" style="margin-right:10px;">Representante seleccionado:&nbsp;</b>{{profileSelected.business_name}} - ({{profileSelected.id_doc}})</h6>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="date" class="form-control" id="expedicion" name="expedicion" [(ngModel)]="expedicion">
+								<label for="expedicion">Fecha de expedición</label>
+							</div>
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="text" class="form-control" id="codigo" name="codigo" [(ngModel)]="codigo" maxlength="8" style="text-transform:uppercase;">
+								<label for="codigo">Código</label>
+							</div>
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="text" class="form-control" id="modalidad" name="modalidad" [(ngModel)]="modalidad" maxlength="20" style="text-transform:uppercase;">
+								<label for="modalidad">Modalidad</label>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="date" class="form-control" id="vencimiento" name="vencimiento" [(ngModel)]="vencimiento">
+								<label for="vencimiento">Fecha de vencimiento</label>
+							</div>
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" maxlength="50" style="text-transform:uppercase;">
+								<label for="nombre">Nombre</label>
+							</div>
+							<div  class="form-floating" style="margin-top:10px;">
+								<input type="text" class="form-control" id="direccion" name="direccion" [(ngModel)]="direccion" maxlength="50" style="text-transform:uppercase;">
+								<label for="direccion">Dirección</label>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;padding:10px;"  *ngIf="listBankAccounts!=null && listBankAccounts.length!=0">
+								<label for="cuentas" style="margin-bottom:10px;" class="font-regular">Cuentas bancarias</label>
+								<table id="table-line-banks" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="text-align:left;">Banco</th>
+											<th class="font-bold" style="text-align:left;">Nro. cuenta</th>
+											<th class="font-bold" style="text-align:left;">Nro. documento</th>
+											<th class="font-bold" style="text-align:right;"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listBankAccounts let i = index;">
+											<td  class="font-regular"  style="text-align:left;padding:5px;">
+												<div class="form-floating">
+													<select class="form-select filtro-busqueda" id="banco{{i}}" name="banco{{i}}" aria-label="Seleccione el banco" [(ngModel)]="item.banco">
+														<option *ngFor="let item1 of listBancos let j = index;" [value]="item1.value">{{item1.name}}</option>
+													</select>
+													<label [attr.for]="'banco' + i">Bancos {{i+1}}</label>
+												</div>
+											</td>
+											<td  class="font-regular"  style="text-align:left;padding:5px;">
+												<div class="form-floating">
+													<input type="text" class="form-control" id="cuenta{{i}}"  name="cuenta{{i}}"  [(ngModel)]="item.cuenta" style="text-transform:uppercase;" maxlength="20" (keypress)="keyPressOnlyNumbers($event)">
+													<label [attr.for]="'cuenta' + i">Cuenta bancaria {{i+1}}</label>
+												</div>
+											</td>	
+											<td  class="font-regular"  style="text-align:left;padding:5px;display:flex;">
+												<div class="form-floating" style="margin-right:5px;">
+													<select class="form-select font-regular" id="id_doc{{i}}" name="id_doc{{i}}" aria-label="Seleccione el tipo" [(ngModel)]="item.id_doc_type" style="width:100px;">
+														<option *ngFor="let item1 of listDocs let i = index;" [value]="item1">{{item1}}</option>
+													</select>
+													<label [attr.for]="'id_doc' + i+' font-regular'">Tipo</label>
+												</div>
+												<div class="form-floating">
+													<input type="text" class="form-control" id="documento{{i}}"  name="documento{{i}}"  [(ngModel)]="item.documento" style="text-transform:uppercase;" maxlength="9" (keypress)="keyPressOnlyNumbers($event)">
+													<label [attr.for]="'documento' + i">Nro.documento {{i+1}}</label>
+												</div>
+											</td>
+											<td data-title="Acciones" class="font-regular" style="text-align:right;padding:5px;vertical-align:middle;">
+												<a (click)="deleteCuentaBancaria(i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<a class="font-bold" (click)="addBankAccount()" *ngIf="listBankAccounts!=null && listBankAccounts.length!=0" style="float:right;text-decoration:underline;margin-top:0px;cursor:pointer;padding:10px;">
+									<img src="assets/images/add_black.svg" width="24px" height="24px">Nueva cuenta bancaria
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listBankAccounts==null || listBankAccounts.length==0" style="text-align:center;padding:20px;margin-top:10px;">
+							<a class="btn btn-dark" (click)="addBankAccount()"><img src="assets/images/add.svg" width="24px" height="24px">Nueva cuenta bancaria</a>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+							<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;padding:10px;"  *ngIf="listPagoMovil!=null && listPagoMovil.length!=0">
+								<label for="cuentas" style="margin-bottom:10px;" class="font-regular">Pago Móvil</label>
+								<table id="table-line-banks" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="text-align:left;">Banco</th>
+											<th class="font-bold" style="text-align:left;">Teléfono</th>
+											<th class="font-bold" style="text-align:left;">Nro. documento</th>
+											<th class="font-bold" style="text-align:right;"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listPagoMovil let i = index;">
+											<td  class="font-regular"  style="text-align:left;padding:5px;">
+												<div class="form-floating">
+													<select class="form-select filtro-busqueda" id="banco-movil{{i}}" name="banco-movil{{i}}" aria-label="Seleccione el banco" [(ngModel)]="item.banco">
+														<option *ngFor="let item1 of listBancos let j = index;" [value]="item1.value">{{item1.name}}</option>
+													</select>
+													<label [attr.for]="'banco-movil' + i">Bancos {{i+1}}</label>
+												</div>
+											</td>
+											<td  class="font-regular"  style="text-align:left;padding:5px;">
+												<div class="form-floating">
+													<input type="text" class="form-control" id="telefono{{i}}"  name="telefono{{i}}"  [(ngModel)]="item.telefono" style="text-transform:uppercase;" maxlength="10" (keypress)="keyPressOnlyNumbers($event)">
+													<label [attr.for]="'telefono' + i">Teléfono {{i+1}}</label>
+												</div>
+											</td>	
+											<td  class="font-regular"  style="text-align:left;padding:5px;display:flex;">
+												<div class="form-floating" style="margin-right:5px;">
+													<select class="form-select font-regular" id="id_doc_movil{{i}}" name="id_doc_movil{{i}}" aria-label="Seleccione el tipo" [(ngModel)]="item.id_doc_type" style="width:100px;">
+														<option *ngFor="let item1 of listDocs let i = index;" [value]="item1">{{item1}}</option>
+													</select>
+													<label [attr.for]="'id_doc_movil' + i+' font-regular'">Tipo</label>
+												</div>
+												<div class="form-floating">
+													<input type="text" class="form-control" id="doc_movil{{i}}"  name="doc_movil{{i}}"  [(ngModel)]="item.documento" style="text-transform:uppercase;" maxlength="9" (keypress)="keyPressOnlyNumbers($event)">
+													<label [attr.for]="'doc_movil' + i">Nro.documento {{i+1}}</label>
+												</div>
+											</td>
+											<td data-title="Acciones" class="font-regular" style="text-align:right;padding:5px;vertical-align:middle;">
+												<a (click)="deletePagoMovil(i)" style="cursor:pointer;"><img src="assets/images/cancelar.svg" width="24px" height="24px"></a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<a class="font-bold" (click)="addPagoMovil()" *ngIf="listPagoMovil!=null && listPagoMovil.length!=0" style="float:right;text-decoration:underline;margin-top:0px;cursor:pointer;padding:10px;">
+									<img src="assets/images/add_black.svg" width="24px" height="24px">Nuevo Pago Móvil
+								</a>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listPagoMovil==null || listPagoMovil.length==0" style="text-align:center;padding:20px;margin-top:10px;">
+							<a class="btn btn-dark" (click)="addPagoMovil()"><img src="assets/images/add.svg" width="24px" height="24px">Nuevo Pago Móvil</a>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+							<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn-lg button-done" style="margin:10px;font-size:14px;" (click)="done()">{{texto}}</button>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</form>
+	</div>
+</main>

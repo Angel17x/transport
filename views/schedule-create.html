@@ -1,0 +1,151 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row">
+    		<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-device-assign" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-12">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione la ruta</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Parada" id="parada_buscar" name="parada_buscar" [(ngModel)]="parada_buscar">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Linea" id="linea_buscar" name="linea_buscar" [(ngModel)]="linea_buscar">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="search()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegister let i = index;" (click)="selectedRoute(item)">
+							<div class="card-body" style="padding:0px;">
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:12px;">{{item.code}} ({{item.line}})</h6>
+								<div *ngFor="let item1 of item.trayectos let j = index;">
+									<label style="margin-top:10px;font-size:12px;">Salida:&nbsp;{{item1.name_salida}}&nbsp;-{{item1.punto_salida}}</label><br>
+									<label style="font-size:12px;">Llegada:&nbsp;{{item1.name_llegada}}&nbsp;-{{item1.punto_llegada}}<br>
+									<b class="font-bold">{{item1.amount}} {{item1.coin}}</b></label>
+								</div>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActual.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage"
+							[pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)"
+							(valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)"
+							(valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister==null || listRegister.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay rutas seleccionadas</h6>
+					</div>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-12 col-12">
+					<div style="margin-top:15px">
+						<div *ngIf="routeSelected!=null">
+							<div style="display:inline-block;margin-right:5px;">
+								<h6 style="text-decoration:underline;">Ruta seleccionada seleccionada</h6>
+							</div>
+							<div style="display:inline-block;">
+								<img src="assets/images/cancelar.svg" height="15px" style="cursor:pointer;" (click)="quitarRoute()"/>
+							</div>
+						</div>
+						<div  *ngIf="routeSelected!=null">
+							<h6 style="margin-top:0px;margin-bottom:0px;font-size:12px;">{{routeSelected.code}} ({{routeSelected.line}})</h6>
+							<div *ngFor="let item1 of routeSelected.trayectos let j = index;">
+								<label style="margin-top:10px;font-size:12px;">Salida:&nbsp;{{item1.name_salida}}&nbsp;-{{item1.punto_salida}}</label>&nbsp;&nbsp;&nbsp;
+								<label style="font-size:12px;">Llegada:&nbsp;{{item1.name_llegada}}&nbsp;-{{item1.punto_llegada}}
+								</label>
+								<br>
+								<b class="font-bold">{{item1.amount}} {{item1.coin}}</b>
+							</div>
+						</div>
+						<div  style="margin-top:10px;" *ngIf="routeSelected!=null">
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="checkbox" id="isFijo" name="isFijo" [(ngModel)]="isFijo" (click)="selectedTypeHorario()">
+							  <label class="form-check-label" for="isFijo">HORARIO FIJO</label>
+							</div>
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="checkbox" id="isVariable" name="isVariable" [(ngModel)]="isVariable" (click)="selectedTypeHorario()">
+							  <label class="form-check-label" for="isVariable">HORARIO VARIABLE</label>
+							</div>
+						</div>
+						<div  style="margin-top:10px;" *ngIf="routeSelected!=null && isFijo">
+							<div class="form-floating" style="margin-top:10px;">
+								<input type="time" class="form-control" id="horario_fijo" name="horario_fijo" [(ngModel)]="horario_fijo">
+								<label for="horario_fijo">Horario</label>
+							</div>
+						</div>
+						<div  style="margin-top:10px;display:flex;" *ngIf="routeSelected!=null && isVariable">
+							<div class="form-floating" style="margin-top:10px;margin-right:10px;">
+								<input type="time" class="form-control" id="horario_init" name="horario_init" [(ngModel)]="horario_init">
+								<label for="horario_init">Horario inicio</label>
+							</div>
+							<div class="form-floating" style="margin-top:10px;margin-right:10px;">
+								<input type="time" class="form-control" id="horario_fin" name="horario_fin" [(ngModel)]="horario_fin">
+								<label for="horario_fin">Horario fin</label>
+							</div>
+							<div class="form-floating" style="margin-top:10px;margin-right:10px;">
+								<input type="text" class="form-control" id="frecuencia" name="frecuencia" [(ngModel)]="frecuencia">
+								<label for="frecuencia">Frecuencia</label>
+							</div>
+						</div>
+						<div  style="margin-top:10px;" *ngIf="routeSelected!=null">
+							<label class="form-check-label">DIAS DE LA SEMANA</label>
+							<div style="display:flex;">
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="lunes" name="lunes" [(ngModel)]="lunes">
+								  <label class="form-check-label" for="lunes">LUNES</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="martes" name="martes" [(ngModel)]="martes">
+								  <label class="form-check-label" for="martes">MARTES</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="miercoles" name="miercoles" [(ngModel)]="miercoles">
+								  <label class="form-check-label" for="miercoles">MIERCOLES</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="jueves" name="jueves" [(ngModel)]="jueves">
+								  <label class="form-check-label" for="jueves">JUEVES</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="viernes" name="viernes" [(ngModel)]="viernes">
+								  <label class="form-check-label" for="viernes">VIERNES</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="lunes" name="sabado" [(ngModel)]="sabado">
+								  <label class="form-check-label" for="sabado">SABADO</label>
+								</div>
+								<div class="form-check form-check-inline" style="margin-right:10px;">
+								  <input class="form-check-input" type="checkbox" id="lunes" name="lunes" [(ngModel)]="domingo">
+								  <label class="form-check-label" for="domingo">DOMINGO</label>
+								</div>
+							</div>	
+						</div>
+						<div  style="margin-top:10px;" *ngIf="routeSelected!=null">
+							<div class="form-check form-check-inline">
+							  <input class="form-check-input" type="checkbox" id="isFeriado" name="isFeriado" [(ngModel)]="isFeriado">
+							  <label class="form-check-label" for="isFeriado">HABILITAR FERIADOS</label>
+							</div>
+						</div>
+						<div style="text-align:right;" *ngIf="routeSelected!=null">
+							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+							<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn-lg button-done" style="margin:10px;font-size:14px;" (click)="done()">{{texto}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

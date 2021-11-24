@@ -1,0 +1,144 @@
+<div class="fixed-sn" >
+	<nav-bar></nav-bar>
+    <main style="margin:2%;padding:2%;margin-top:0px;">
+        <div class="container-fluid" style="width:100%;">
+			<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component>
+			<loading-service></loading-service>
+			<div class="row"  style="margin-top:15px;margin-bottom:10px;">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+					<h4 class="Poppins-light d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Pasajeros</h4>
+					<h6 class="Poppins-light d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Pasajeros</h6>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:right;">
+						<button type="button" class="btn botonPrincipal btn-rounded waves-effect Poppins-regular" routerLink="/passenger-create"><i class="fa fa-plus fa-lg"></i>&nbsp;Nuevo</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<label class="Poppins-regular" style="font-size:12px;margin-bottom:0px;">Nombre</label>
+									<input type="text" style="font-size:12px;" name="nombre" id="nombre" class="form-control Poppins-regular" [(ngModel)]="nombre">
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<label class="Poppins-regular" style="font-size:12px;margin-bottom:0px;">R.I.F/C.I</label>
+									<input type="text" style="font-size:12px;" name="doc" id="doc" class="form-control Poppins-regular" [(ngModel)]="doc">
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+									<label class="Poppins-regular" style="font-size:12px;margin-bottom:0px;">Correo electrónico</label>
+									<input type="text" style="font-size:12px;" name="email" id="email" class="form-control Poppins-regular" [(ngModel)]="email">
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+									<label class="Poppins-regular" style="font-size:12px;margin-bottom:0px;">&nbsp;</label>
+									<button type="button" class="btn botonSecundario waves-effect Poppins-regular" (click)="clean()" style="font-size:12px;"><i class="fa fa-eraser fa-lg"></i>&nbsp;Limpiar</button>
+									<button  class="btn botonPrincipal waves-effect Poppins-regular" (click)="search()" style="font-size:12px;"><i class="fa fa-search fa-lg"></i>&nbsp;Buscar</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">R.I.F/C.I</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">NOMBRE</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">CORREO ELECTRÓNICO</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">TELÉFONO</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">DIRECCIÓN</th>
+										<th class="Poppins-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listRegister let i = index;">
+										<td data-title="#" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											&nbsp;&nbsp;{{((pageSelected-1)*detallePorPagina)+(i+1)}}
+										</td>
+										<td data-title="R.I.F/C.I" *ngIf="item.formatted_doc!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.formatted_doc}}
+										</td>
+										<td data-title="R.I.F/C.I" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row" *ngIf="item.formatted_doc==null">
+													
+										</td>
+										<td data-title="NOMBRE" *ngIf="item.name!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.name}}
+										</td>
+										<td data-title="NOMBRE" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.name==null">
+													
+										</td>
+										<td data-title="EMAIL" *ngIf="item.email!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.email}}
+										</td>
+										<td data-title="EMAIL" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.email==null">
+													
+										</td>
+										<td data-title="TLF" *ngIf="item.phone!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.phone}}
+										</td>
+										<td data-title="TLF" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.phone==null">
+													
+										</td>
+										<td data-title="DIR" *ngIf="item.address!=null" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.address}}
+										</td>
+										<td data-title="DIR" class="Poppins-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;"scope="row" *ngIf="item.address==null">
+													
+										</td>
+										<td>
+											<div class="btn-group" role="group" style="padding-left:0px;padding-right:0px;margin-bottom:5px;">
+												<div class="dropdown" *ngIf="actions!=null && actions.length!=0">
+													<button class="btn" type="button" name="dropdownName{{i}}" id="dropdownMenu{{i}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:transparent;box-shadow:none;margin:0px;padding:5px;">
+														<i class="fa fa-plus" style="color:#78909C;"></i>
+													</button>
+													<div class="dropdown-menu dropdown-menu-right dropdown-ins" role="menu">
+														<form class="form-horizontal" role="form" *ngFor="let item1 of actions; let j = index;">
+															<a class="dropdown-item Poppins-regular" style="font-size:14px;" (click)="selectedAction(item,item1)">{{item1.name}}</a>
+														</form>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>	
+		</div>
+	</main>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="deletePassenger" tabindex="-1" role="dialog" aria-labelledby="Mensaje" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header" >
+				<h6 class="modal-title Poppins-regular" id="myModalLabel" style="margin-bottom:0px;margin-top:0px;font-size:12px;" *ngIf="dataSelected!=null"><b>Eliminar:&nbsp;{{dataSelected.formatted_doc}}</b></h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:left;" (click)="deselectedData()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="word-wrap: break-word;font-size:12px;">
+				<p class="Poppins-regular"  *ngIf="dataSelected!=null">¿Desea borrar al pasajero: <b class="Poppins-bold">{{dataSelected.name}}?</b> con el documento de identidad: <b class="Poppins-bold">{{dataSelected.doc}}?</b></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" style="font-size:11px;" class="btn btn-light waves-effect Poppins-regular" data-dismiss="modal" (click)="deselectedData()">Cerrar</button>
+				<button style="font-size:11px;" type="button" class="btn btn-danger Poppins-regular" data-dismiss="modal" (click)="deleteData()">Eliminar</button>
+			</div>
+		</div>
+	</div>
+</div>

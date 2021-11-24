@@ -1,0 +1,144 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;overflow-y:visible;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-device-assign" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione el propietario</h6>
+					<div class="input-group">
+						<input type="text" aria-label="RIF/CI" class="form-control" placeholder="RIF/CI" id="rif_buscar" name="rif_buscar" [(ngModel)]="rif_buscar">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Nombre" id="nombre_buscar" name="nombre_buscar" [(ngModel)]="nombre_buscar">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="search()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegister let i = index;" (click)="selectedPropietario(item)">
+							<div class="card-body" style="padding:0px;">
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;">{{item.name}} ({{item.id_doc}})</h6>
+								<p style="margin-bottom:0px;margin-top:0px;font-size:12px;color:#616161;" *ngIf="item.email!=null">{{item.email}}</p>
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;color:#f44336;" *ngIf="!item.active">SUSPENDIDO</h6>
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;color:#4caf50;" *ngIf="item.active">ACTIVO</h6>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActual.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage"
+							[pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)"
+							(valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)"
+							(valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegister==null || listRegister.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay propietarios</h6>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6 col-12" *ngIf="save">
+					<h6 style="margin-bottom:2px;margin-top:10px;color:#bdbdbd;font-size:12px;" >Seleccione el tipo de vehiculo</h6>
+					<div class="input-group">
+						<input type="text" aria-label="Email" class="form-control" placeholder="Nombre" id="nombre_buscar_type" name="nombre_buscar_type" [(ngModel)]="nombre_buscar_type">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon1" (click)="searchVehicleType()">Buscar</button>
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterType!=null && listRegisterType.length!=0">
+						<div class="card {{item.classSelected}}" style="margin-bottom:5px;padding:15px;cursor:pointer;" *ngFor="let item of listRegisterType let i = index;" (click)="selectedType(item)">
+							<div class="card-body" style="padding:0px;">
+								<h6 style="margin-top:0px;margin-bottom:0px;font-size:14px;">{{item.name}} ({{item.capacity}})</h6>
+							</div>
+						</div>
+						<custom-table 
+							[size]="pagingActualType.count"
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'"
+							[totalPage]="detallePorPaginaType"
+							[totalPageRecords]="totalPageType"
+							[pageSelected]="pageSelectedType"
+							(cantidadTransaccionesTabla)="getCantidadSelectedType($event)"
+							(valueFirst)="getValueFirstType($event)"
+							(valuePrevious)="getValuePreviousType($event)"
+							(valueNext)="getValueNextType($event)"
+							(valueLast)="getValueLastType($event)"
+							(valueChangeRecords)="getValueChangeRecordsType($event)"
+						>
+						</custom-table>	
+					</div>
+					<div style="margin-top:15px;" *ngIf="listRegisterType==null || listRegisterType.length==0" style="vertical-align:middle;padding-top:25px;text-align:center;">
+						<h6 class="font-bold" style="color:#d0d6e2">No hay tipos de vehículos</h6>
+					</div>
+				</div>
+				<div [class]="claseResponsive">
+					<div style="margin-top:15px">
+						<div *ngIf="profileSelected!=null">
+							<div style="display:inline-block;margin-right:5px;">
+								<h6 style="text-decoration:underline;">Propietario seleccionado</h6>
+							</div>
+							<div style="display:inline-block;" *ngIf="save">
+								<img src="assets/images/cancelar.svg" height="15px" style="cursor:pointer;" (click)="quitarPropietario()"/>
+							</div>
+						</div>
+						<p  *ngIf="profileSelected!=null">
+							<label style="font-size:14px;"><b class="font-bold">Nombre:&nbsp;</b>{{profileSelected.name}}</label><br *ngIf="profileSelected.name">
+							<label style="font-size:14px;" *ngIf="profileSelected.id_doc!=null"><b class="font-bold">RIF/CI:&nbsp;</b>{{profileSelected.id_doc}}</label><br *ngIf="profileSelected.id_doc">
+							<label style="font-size:14px;"><b class="font-bold">Correo electrónico:&nbsp;</b>{{profileSelected.email}}</label><br *ngIf="profileSelected.email">
+							<label style="font-size:14px;"><b class="font-bold">Teléfono:&nbsp;</b>{{profileSelected.phone}}</label><br *ngIf="profileSelected.phone">
+							<label style="margin-top:0px;margin-bottom:0px;font-size:14px;color:#4caf50;" *ngIf="profileSelected.active && save">ACTIVO</label><br *ngIf="profileSelected.active">
+							<label style="margin-top:0px;margin-bottom:0px;font-size:14px;color:#f44336;" *ngIf="!profileSelected.active && save">SUSPENDIDO</label><br *ngIf="!profileSelected.active">
+							<label style="font-size:14px;margin-top:15px;"><b class="font-bold">Linea asociada:&nbsp;</b>{{profileSelected.line_name}}</label><br *ngIf="profileSelected.line_name">
+
+						</p>
+						<div *ngIf="typeSelected!=null">
+							<div style="display:inline-block;margin-right:5px;">
+								<h6 style="text-decoration:underline;">Tipo de vehículo</h6>
+							</div>
+							<div style="display:inline-block;" *ngIf="save">
+								<img src="assets/images/cancelar.svg" height="15px" style="cursor:pointer;" (click)="quitarType()"/>
+							</div>
+						</div>
+						<p  *ngIf="typeSelected!=null">
+							<label style="font-size:14px;"><b class="font-bold">Tipo de vehículo:&nbsp;</b>{{typeSelected.name}}</label><br *ngIf="typeSelected.name">
+							<label style="font-size:14px;" *ngIf="typeSelected.capacity!=null"><b class="font-bold">Capacidad:&nbsp;</b>{{typeSelected.capacity}}</label><br *ngIf="typeSelected.capacity">
+						</p>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="placa" name="placa" [(ngModel)]="placa" maxlength="7" style="text-transform:uppercase;" >
+							<label for="placa">Placa</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="carroceria" name="carroceria" [(ngModel)]="carroceria" maxlength="30" style="text-transform:uppercase;">
+							<label for="carroceria">Carrocería</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="marca" name="marca" [(ngModel)]="marca" maxlength="30" style="text-transform:uppercase;">
+							<label for="marca">Marca</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="color" name="color" [(ngModel)]="color" maxlength="30" style="text-transform:uppercase;">
+							<label for="color">Color</label>
+						</div>
+						<div  class="form-floating" style="margin-top:10px;">
+							<input type="text" class="form-control" id="anno" name="anno" [(ngModel)]="anno" maxlength="4" style="text-transform:uppercase;" (keypress)="keyPressNumber($event)">
+							<label for="anno">Año</label>
+						</div>
+						<div style="text-align:right;">
+							<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+							<button type="button" class="btn btn-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn-lg button-done" style="margin:10px;font-size:14px;" (click)="done()">{{texto}}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

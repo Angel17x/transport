@@ -1,0 +1,70 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row" style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-line-view" style="margin-top:15px;">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="card" style="width:100%">
+						<div class="card-body">
+							<h5 class="card-title text-center" *ngIf="codigo!=null">{{codigo}}</h5>
+							<p class="card-text">
+									<label *ngIf="nombre!=null"><b class="font-bold">Nombre:&nbsp;</b>{{nombre}}</label><br *ngIf="nombre!=null">
+									<label *ngIf="capacidad!=null"><b class="font-bold">Capacidad:&nbsp;</b>{{capacidad}}</label><br *ngIf="capacidad!=null">
+							</p>
+							<div class="table-responsive-vertical shadow-z-1 " style="margin-top:15px;" *ngIf="listCaracteristicas!=null && listCaracteristicas.length!=0">
+								<h6 class="font-bold">{{title2}}</h6>
+								<table id="table-car-view-prop" class="table table-hover table-mc-light-blue">
+									<thead>
+										<tr>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+											<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Caracteristicas</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let item of listCaracteristicas let i = index;">
+											<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row">
+												&nbsp;{{i+1}}
+											</td>
+											<td data-title="Caracteristica" *ngIf="item.value!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												&nbsp;{{item.value}}
+											</td>
+											<td data-title="Caracteristica" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.value==null">
+																
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+					<div class="card" style="width:100%">
+						<div class="card-body">
+							<p class="card-text" style="margin-top:10px;text-align:right;">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="creado_por!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Creado por:&nbsp;</b>{{creado_por}}</label><br *ngIf="creado_por!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="creado_el!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Creado el:&nbsp;</b>{{creado_el}}</label><br *ngIf="creado_el!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="actualizado_por!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Actualizado por:&nbsp;</b>{{actualizado_por}}</label><br *ngIf="actualizado_por!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="actualizado_el!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Actualizado el:&nbsp;</b>{{actualizado_el}}</label><br *ngIf="actualizado_el!=null">
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

@@ -1,0 +1,221 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+	<div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;"><br>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;width: 500px;">
+								<select aria-label="seleccione" class="form-select filtro-busqueda ng-pristine ng-valid ng-touched" role="tablist" id="manualSel" name="manualSel">
+									<option value="recaudacion" selected>Manual del recaudador</option>
+								  	<option value="ventas" >Ventas diarias</option>
+								  	<option value="lineas" >Ventas por línea</option>
+								  	<option value="viajes" >Viajes</option>
+								</select><label for="manual">Manual</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;width:250px;" type="button" (click)="seleccionarMan('CONSULTA')">Ver</button>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-6 col-12"></div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+								<tab class="tab-content">
+									<div id="ibeTab" class="tab-pane active" role="tabpanel" *ngIf="classInitTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirOperador" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual recaudación</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Aplicaciones del recaudador</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El recaudador de la aplicación Sistema terminal la bandera tendrá establecidas una serie de aplicaciones de acuerdo a su perfil y sus roles dentro de la plataforma, podrá detallarse cada una de las funcionalidades en la lista desplegable y seleccionando la opción correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/menu.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>											
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="VentasTab" class="tab-pane active" role="tabpanel" *ngIf="classVentasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual recaudación</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Ventas diarias</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El recaudador de la aplicación Sistema terminal la bandera podrá visualizar el reporte de ventas diarias, con todos sus detalles
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las ultimas tasas de cambio agregadas
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/ventas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="TarifasTab" class="tab-pane active" role="tabpanel" *ngIf="classTarifasTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual recaudación</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Tarifas</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El recaudador de la aplicación Sistema terminal la bandera podrá visualizar el reporte de tarifas diarias, con todos sus detalles
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las ultimas tasas de cambio agregadas
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/tarifas.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="VentasLTab" class="tab-pane active" role="tabpanel" *ngIf="classVentasLTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual recaudación</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Ventas por línea</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El recaudador de la aplicación Sistema terminal la bandera podrá visualizar el reporte de ventas por línea, con todos sus detalles
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de las ultimas tasas de cambio agregadas
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/lineas1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Ingresando en la opción "Relación de cobro" del menú lateral podrá ingresar en el detalle de la relación de ventas diarias.
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/lineas2.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Desde este punto ingresando en el icono de visualizar en el detalle podrá visualizar la lista detallada de pasajeros
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/lineas3.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Listin del viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Ingresando en la opción "Listin de viaje" del menú lateral el recaudador podrá ingresar en la visualización del listin.
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/lineas4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Lo que le proporcionará el detalle del manifiesto del viaje que podrá imprimir
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/lineas5.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="ViajesTab" class="tab-pane active" role="tabpanel" *ngIf="classViajesTab=='nav-item active tab tab-selected'">
+										<div class="home-tpl">
+											<div class="section-home">
+												<div class="cont-search cont-search-ibe" >
+													<div class="cont-inputs">
+														<div class="all-inputs">															
+															<div class="info-container" id="imprimirCambio" style="padding: 20px;">
+																<div>
+																	<h5 style="color:#0099cc;font-size:22px;" class="font-regular">Documento: Manual recaudación</h5><br>
+																	<p class="font-bold" style="color:black;font-size:20px;">Viajes</p>
+																</div>
+																<div class="text-justify">
+																	<p class="font-regular" style="color:black;font-size:18px;">														
+																		El recaudador de la aplicación Sistema terminal la bandera podrá visualizar el reporte de viajes, con todos sus detalles.
+																	</p><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Consulta</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Al dar click en el botón "buscar" el operador podrá ver el detalle de lso viajes
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Chequear de administración</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Una vez concluidas las validaciones pertinentes del viaje, el recaudador deberá chequear el mismo. Una vez chequeado por el recaudador el viaje no podrá tener ningún tipo de modificación.
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes1.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma le mostrará al recaudador un mensaje que deberá confirmar
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes2.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>	
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Finalmente, la plataforma mostrará mensaje de proceso satisfactorio
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes3.png" alt=""  width="30%" class="rounded" style="margin-left: 35%;"><br>
+																	<p class="font-bold" style="color:black;font-size:20px;font-style: italic;">Listin del viaje</p>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		Ingresando en la opción "Listin del viaje" del menú lateral podrá ingresar en el detalle correspondiente.
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes7.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>
+																	<p class="font-regular" style="color:black;font-size:18px;">
+																		La plataforma mostrará el manifiesto de embarque a imprimir
+																	</p><br>
+																	<img src="assets/images/Manuales/recaudacion/viajes4.png" alt=""  width="70%" class="rounded" style="margin-left: 15%;"><br>		
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</tab>
+				</div>
+			</div>	
+	</div>	
+</div>
+</main>

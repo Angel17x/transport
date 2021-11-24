@@ -1,0 +1,296 @@
+<nav-bar></nav-bar>
+<main style="margin:2%;padding:2%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+    <div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Pasajeros</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Pasajeros</h6>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="pasajero" name="pasajero" [(ngModel)]="pasajero" maxlength="30" style="text-transform:uppercase;">
+								<label for="codigo">Pasajero</label>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="destino" name="destino" [(ngModel)]="destino" maxlength="50" style="text-transform:uppercase;">
+								<label for="destino">Destino</label>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="status" name="status" aria-label="Seleccione el estatus" [(ngModel)]="status">
+									<option *ngFor="let item of listStatus let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="status">Estatus</label>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+						<div style="margin-bottom:10px;margin-top:10px;">
+							<h4 class="font-regular" style="font-size:18px" *ngIf="linea!=null"><b class="font-bold">Linea: </b>{{linea}}</h4>
+							<h4 class="font-regular" style="font-size:16px" *ngIf="fecha_salida!=null"><b class="font-bold">Fecha de salida: </b>{{fecha_salida}}</h4>
+							<h4 class="font-regular" style="font-size:16px" *ngIf="trip!=null"><b class="font-bold">Nro.viaje: </b>{{trip}}</h4>
+						</div>
+						<div style="display:flex;">
+							<h6 *ngIf="adultos!=0" style="margin-right:10px;"><b class="font-bold">Adultos:&nbsp;</b>{{adultos}}</h6>
+							<h6 *ngIf="mayores!=0" style="margin-right:10px;"><b class="font-bold">Adultos Mayores:&nbsp;</b>{{mayores}}</h6>
+							<h6 *ngIf="ninnos!=0" style="margin-right:10px;"><b class="font-bold">Niños:&nbsp;</b>{{ninnos}}</h6>
+							<h6 *ngIf="infantes!=0" style="margin-right:10px;"><b class="font-bold">Infantes:&nbsp;</b>{{infantes}}</h6>
+						</div>
+						<div class="row noPrint" *ngIf="mostrarTrasbordo">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+								<div style="display:flex;">
+									<a class="font-regular" style="margin-bottom:10px;font-size:14px;cursor:pointer;text-decoration:underline;color:#304ffe;margin-right:15px;" (click)="selectedList(true)">Seleccionar todo</a>
+									<a class="font-regular" style="margin-bottom:10px;font-size:14px;cursor:pointer;text-decoration:underline;color:#304ffe;margin-right:15px;" (click)="selectedList(false)">Deseleccionar todo</a>
+								</div>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="text-align:right;">
+								<button type="button" class="btn btn-primary font-regular" (click)="trasbordarPasajeros()">Trasbordar pasajeros</button>
+							</div>
+						</div>
+						
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" *ngIf="mostrarTrasbordo"></th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">RIF/CI</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">NOMBRE</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">DESTINO</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">TIPO DE PASAJE</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">PRECIO</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">TASA</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">ESTATUS PAGO</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">ESTATUS ABORDAJE</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listRegister let i = index;">
+										<td data-title="#" *ngIf="mostrarTrasbordo" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+												<input class="form-check-input" [(ngModel)]="item.check" type="checkbox" id="check{{i}}">
+												<label class="form-check-label" [attr.for]="'check' + i">
+													&nbsp;
+											  </label>
+										</td>
+										<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											&nbsp;&nbsp;{{((pageSelected-1)*detallePorPagina)+(i+1)}}
+										</td>
+										<td data-title="RIF/CI" *ngIf="item.id_doc!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;  word-break: break-all;" scope="row">
+											{{item.id_doc}}
+										</td>
+										<td data-title="RIF/CI" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;  word-break: break-all;" scope="row" *ngIf="item.id_doc==null">
+											&nbsp;
+										</td>
+										<td data-title="NOMBRE" *ngIf="item.name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;  word-break: break-all;" scope="row">
+											{{item.name}}
+										</td>
+										<td data-title="NOMBRE" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;  word-break: break-all;" scope="row" *ngIf="item.name==null">
+											&nbsp;		 
+										</td>
+										<td data-title="DESTINO" *ngIf="item.destination_stop_code!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;  word-break: break-all;" scope="row">
+											{{item.destination_stop_code}} - {{item.destination_stop_name}}
+										</td>
+										<td data-title="DESTINO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;  word-break: break-all;" scope="row" *ngIf="item.destination_stop_code==null">
+											&nbsp;		 
+										</td>
+										<td data-title="TIPO" *ngIf="item.formatted_type!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row">
+											{{item.formatted_type}}
+										</td>
+										<td data-title="TIPO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;  word-break: break-all;" scope="row" *ngIf="item.formatted_type==null">
+											&nbsp;		 
+										</td>
+										<td data-title="PRECIO" *ngIf="item.formatted_dolars!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row">
+											{{item.formatted_dolars}}<br>
+											{{item.formatted_bs}}
+										</td>
+										<td data-title="PRECIO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row" *ngIf="item.formatted_dolars==null">
+											0,00	 
+										</td>
+										<td data-title="TASA" *ngIf="item.tasa!=null && item.formatted_dolars!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row">
+											{{item.tasa}}
+										</td>
+										<td data-title="TASA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row" *ngIf="item.tasa==null || (item.tasa!=null && item.formatted_dolars==null)">
+											0,00		 
+										</td>
+										<td data-title="ESTATUS PAGO" *ngIf="item.formatted_reservation_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;  word-break: break-all;" scope="row">
+											{{item.formatted_reservation_status}}
+										</td>
+										<td data-title="ESTATUS PAGO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;word-break: break-all;" scope="row" *ngIf="item.formatted_reservation_status==null">
+											&nbsp;		 
+										</td>
+										<td data-title="ESTATUS" *ngIf="item.formatted_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;word-break: break-all;" scope="row">
+											{{item.formatted_status}}<br>
+											<label class="font-regular" *ngIf="item.formatted_transferido!=null">{{item.formatted_transferido}}</label>
+										</td>
+										<td data-title="ESTATUS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;word-break: break-all;" scope="row" *ngIf="item.formatted_status==null">
+											&nbsp;		 
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<h6 style="text-align:right;margin-top:10px;" class="font-regular" *ngIf="total_bolivares_formatted!=null"><b class="font-bold">Total en ventas Bs:&nbsp;</b>{{total_bolivares_formatted}}</h6>
+						<h6 style="text-align:right;margin-top:10px;" class="font-regular" *ngIf="total_dolares_formatted!=null"><b class="font-bold">Total en ventas $:&nbsp;</b>{{total_dolares_formatted}}</h6>
+						<h6 style="text-align:right;" class="font-regular" *ngIf="porcentaje_total!=null && tipo=='LONG_ROUTE'"><b class="font-bold">Total Tasa terminal y Usuario Bs:&nbsp;</b>{{porcentaje_total}}</h6>
+						<h6 style="text-align:right;" class="font-regular" *ngIf="porcentaje_total_us!=null && tipo=='LONG_ROUTE'"><b class="font-bold">Total Tasa terminal y Usuario $:&nbsp;</b>{{porcentaje_total_us}}</h6>
+							<h6 class="font-regular" style="margin-left:10px;color:#bdbdbd;">Nota: Este reporte no es válido como manifiesto de embarque</h6>
+							<h6 class="font-regular" style="margin-left:10px;color:#bdbdbd;">Los infantes no afectan la disponibilidad de la unidad</h6>
+						</div>
+						<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+							[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+							[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+							(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+							(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+							(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+							(valueChangeRecords)="getValueChangeRecords($event)">
+						</custom-table>
+					</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+					<h3 class="Poppins-bold" style="color:#d0d6e2;">No hay registros</h3>
+				</div>
+				</div>
+	</div>
+</main>
+<div class="modal" tabindex="-1" id="modalTripsAvailable">
+	<div class="modal-dialog">
+		<div class="modal-content" style="padding:15px;">
+			<div class="modal-header">
+				<h5 class="modal-title font-bold">Viajes disponibles</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row" style="margin-top:0px;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+							<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+										<div class="form-floating" style="margin-top:5px;">
+											<input type="date" class="form-control filtro-busqueda" id="fecha" name="fecha" [(ngModel)]="fecha">
+											<label for="fecha">Fecha del viaje</label>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+										<div class="form-floating" style="margin-top:5px;">
+											<input type="text" class="form-control filtro-busqueda" id="destino" name="destino" [(ngModel)]="destino" maxlength="20" style="text-transform:uppercase;">
+											<label for="destino">Destino</label>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+										<div class="form-floating" style="margin-top:5px;">
+											<input type="text" class="form-control filtro-busqueda" id="linea_buscar" name="linea_buscar" [(ngModel)]="linea_buscar" maxlength="20" style="text-transform:uppercase;">
+											<label for="linea_buscar">Linea</label>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+										<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="cleanModal()">Limpiar</button>
+										<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="searchTrip()">Buscar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listTrips==null || listTrips.length==0">
+						<div  *ngIf="mostrarCargando==false"  style="text-align:center;padding-top:45px;vertical-align:middle;" >
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio==null">No hay registros</h6>
+							<h6 class="font-bold" style="color:#9e9e9e;" *ngIf="mensajeServicio!=null">{{mensajeServicio}}</h6>
+						</div>
+						<div style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="mostrarCargando==true">
+							<div style="text-align:center;padding-top:20px;padding-bottom:20px;text-align:center">
+								 <img [src]="imagenCargando" style="width:70px;heigth:70px;box-shadow:none;text-align:center;">
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="listTrips!=null && listTrips.length!=0">
+						<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+							<table id="table" class="table table-hover table-mc-light-blue">
+								<thead>
+									<tr>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Viaje/Fecha</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Linea</th>
+										<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:14px;">Destino</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let item of listTrips let i = index;" style="cursor:pointer;" (click)="selectedTravel(item)">
+										<td data-title="Fecha/Viaje"  class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+											<label style="margin-top:0px;" class="font-bold" *ngIf="item.sequence!=null">{{item.sequence}}</label><br *ngIf="item.sequence!=null">
+											<label style="margin-top:0px;" class="font-regular" *ngIf="item.formatted_departure_date!=null">{{item.formatted_departure_date}}</label>
+										</td>
+										<td data-title="LINEA"  *ngIf="item.line_name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.line_name}}
+										</td>
+										<td data-title="LINEA"  *ngIf="item.line_name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											
+										</td>
+										<td data-title="DESTINO"  *ngIf="item.destino!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											{{item.destino}}
+										</td>
+										<td data-title="DESTINO"  *ngIf="item.destino==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+											
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<custom-table 
+							[size]="pagingActualTrip.count" 
+							[labelSize]="'Total'"
+							[alignSize]="'alignRight'" 
+							[totalPage]="detallePorPaginaTrip"
+							[totalPageRecords]="totalPageTrip" 
+							[pageSelected]="pageSelectedTrip"
+							(cantidadTransaccionesTabla)="getCantidadSelectedTrip($event)"
+							[ocultarCantidad]="'true'"
+							(valueFirst)="getValueFirstTrip($event)" (valuePrevious)="getValuePreviousTrip($event)"
+							(valueNext)="getValueNextTrip($event)" (valueLast)="getValueLastTrip($event)"
+							(valueChangeRecords)="getValueChangeRecordsTrip($event)">
+						</custom-table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary font-regular" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade bd-example-modal-sm" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="Mensaje" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header" >
+				<h6 class="modal-title font-regular" id="myModalLabel" style="margin-bottom:0px;margin-top:0px;font-size:12px;"><b>Trasbordar</b></h6>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:left;">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="word-wrap: break-word;font-size:12px;">
+				<p class="font-regular"  *ngIf="viajeSeleccionado!=null">¿Desea trasbordar  <b class="font-bold" *ngIf="listaPasar!=null && listaPasar.length!=0">{{listaPasar.length}} pasajeros</b> al viaje Nro: <b class="font-bold">{{viajeSeleccionado.sequence}}?</b> de la línea: <b class="font-bold">{{viajeSeleccionado.line_name}}</b> con fecha de salida <b class="font-bold">{{viajeSeleccionado.formatted_departure_date}}</b> hacia: <b class="font-bold">{{viajeSeleccionado.destino}}</b>?</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" style="font-size:11px;" class="btn btn-light waves-effect Poppins-regular" data-dismiss="modal" (click)="deselectedData()">Cerrar</button>
+				<button style="font-size:11px;" type="button" class="btn btn-primary font-regular" data-dismiss="modal" (click)="trasbordar()">Trasbordar</button>
+			</div>
+		</div>
+	</div>
+</div>
+	

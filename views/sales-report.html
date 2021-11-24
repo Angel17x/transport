@@ -1,0 +1,170 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;overflow-y:auto;0px;overflow-x:hidden;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+				<h3 class="font-regular d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h3>
+				<h5 class="font-regular d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Periodo (Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="end" name="end" [(ngModel)]="end">
+								<label for="end">Periodo (Inicio)</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="nro" name="nro" [(ngModel)]="nro" maxlength="10" style="text-transform:uppercase;">
+								<label for="nro"># Reservación</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="cliente" name="cliente" [(ngModel)]="cliente" maxlength="50" style="text-transform:uppercase;">
+								<label for="cliente">Cliente</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="canal" name="canal" aria-label="Seleccione el canal" [(ngModel)]="canal">
+									<option *ngFor="let item of listCanales let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="canal">Canal</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="type" name="type" aria-label="Seleccione el tipo" [(ngModel)]="type">
+									<option *ngFor="let item of listType let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="status">Método de pago</label>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+					<table id="table-car" class="table table-hover table-mc-light-blue">
+						<thead>
+							<tr>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Fecha</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Reserva</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Ref</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Banco</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Canal</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Método de pago</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Monto</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of listRegister let i = index;">
+								<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{((pageSelected-1)*detallePorPagina)+(i+1)}}
+								</td>
+								<td data-title="Fecha" *ngIf="item.date!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.date}}
+								</td>
+								<td data-title="Fecha" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.date==null">
+													
+								</td>
+								<td data-title="Reserva" *ngIf="item.reserva!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.reserva}}
+								</td>
+								<td data-title="Reserva" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.reserva==null">
+													
+								</td>
+								<td data-title="Ref" *ngIf="item.ref!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.ref}}
+								</td>
+								<td data-title="Ref" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.ref==null">
+													
+								</td>
+								<td data-title="Banco" *ngIf="item.banco!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.banco}}
+								</td>
+								<td data-title="Banco" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.banco==null">
+													
+								</td>
+								<td data-title="Canal" *ngIf="item.formatted_channel!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.formatted_channel}}
+								</td>
+								<td data-title="Canal" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.formatted_channel==null">
+													
+								</td>
+								<td data-title="Método" *ngIf="item.formatted_method!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;" scope="row">
+									&nbsp;{{item.formatted_method}}
+								</td>
+								<td data-title="Método" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.formatted_method==null">
+													
+								</td>
+								<td data-title="Monto" *ngIf="item.formatted_amount!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:10px;text-align:right" scope="row">
+									&nbsp;{{item.formatted_amount}}
+								</td>
+								<td data-title="Monto" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:11px;" scope="row" *ngIf="item.formatted_amount==null">
+													
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<custom-table [size]="pagingActual.count" [labelSize]="'Total'"
+					[alignSize]="'alignRight'" [totalPage]="detallePorPagina"
+					[totalPageRecords]="totalPage" [pageSelected]="pageSelected"
+					(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+					(valueFirst)="getValueFirst($event)" (valuePrevious)="getValuePrevious($event)"
+					(valueNext)="getValueNext($event)" (valueLast)="getValueLast($event)"
+					(valueChangeRecords)="getValueChangeRecords($event)">
+				</custom-table>
+			</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+			<h3 class="font-bold" style="color:#d0d6e2;">No hay registros</h3>
+		</div>
+	</div>
+	</div>
+</main>
+<div class="modal" tabindex="-1" id="modalValidarReserva">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Validar</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" *ngIf="dataSelected!=null">
+				<p *ngIf="dataSelected!=null">Desea validar  la reserva  <b class="font-bold">{{dataSelected.code}}</b> y asignar sus respectivos asientos</p>
+				<div *ngIf="dataSelected.users!=null && dataSelected.users.length!=0">
+					<div *ngFor="let item of dataSelected.users let i = index;">
+						<div class="form-floating" style="margin-top:5px;">
+							<input type="text" class="form-control filtro-busqueda" id="asiento{{i}}" name="asiento{{i}}" [(ngModel)]="item.asiento" maxlength="10" style="text-transform:uppercase;">
+							<label [attr.for]="'asiento' + i" class="font-regular">Asiento ({{i+1}})</label>
+						</div>
+					</div>
+				</div> 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary" (click)="reservar()">Reservar</button>
+			</div>
+		</div>
+	</div>
+</div>

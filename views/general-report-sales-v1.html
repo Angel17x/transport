@@ -1,0 +1,153 @@
+<nav-bar class="noPrint"></nav-bar>
+<main style="margin:1%;padding:1%;margin-top:0px;overflow-x:hidden;overflow-y:visible;">
+    <div class="container-fluid" style="width:100%;">
+		<msg-component [mensaje]="mensaje"></msg-component>
+		<loading-service></loading-service>
+		<div class="row" style="margin-top:15px;margin-bottom:10px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:left;">
+				<h4 class="color-title font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Relación de ventas general</h4>
+				<h6 class="color-title font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">Relación de ventas general</h6>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form class="noPrint" style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="init" name="init" [(ngModel)]="init">
+								<label for="init">Fecha</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<select class="form-select filtro-busqueda" id="tipo" name="tipo" aria-label="Seleccione el tipo" [(ngModel)]="tipo" (change)="changeType()">
+									<option *ngFor="let item of listType let i = index;" [value]="item.value">{{item.name}}</option>
+								</select>
+								<label for="tipo">Tipo</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-12 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+				<div class="card" style="margin-top:5px;" *ngIf="listRegister!=null && listRegister.length!=0">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-12">
+								<h6 class="font-bold">Terminal de la Bandera INTRAC</h6>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-6 col-12" style="text-align:right;">
+								<label class="font-regular" style="font-size:11px" *ngIf="fecha"><b class="font-bold">Fecha:&nbsp;</b>{{fecha}}</label><br *ngIf="hora!=null">
+								<label class="font-regular" style="font-size:11px" *ngIf="hora"><b class="font-bold">Hora:&nbsp;</b>{{hora}}</label>
+							</div>
+						</div>
+						<div class="row" style="margin-top:10px;">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:center;">
+								<h5 class="font-regular">RELACIÓN DE COBRO POR VIAJE DE LA LINEA {{init}}<br>
+								Desde las <b class="font-bold">00:00</b> hasta las <b class="font-bold">23:59</b></h5>
+								<h6 class="font-bold" *ngIf="tipo=='LONG_ROUTE'">RUTAS LARGAS</h6>
+								<h6 class="font-bold" *ngIf="tipo=='SHORT_ROUTE'">RUTAS CORTAS</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+								<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+									<table id="table-daily-sales" class="table table-hover table-mc-light-blue">
+										<thead>
+											<tr>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">Línea</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">Total de venta</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">Viaje</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;"  *ngIf="tipo=='LONG_ROUTE'">Boletos</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" *ngIf="tipo=='LONG_ROUTE'">Tasa Terminal</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" *ngIf="tipo=='LONG_ROUTE'">IVA</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" *ngIf="tipo=='LONG_ROUTE'">Tasa Usuario</th>
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" *ngIf="tipo=='LONG_ROUTE'">IVA</th>	
+												<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" *ngIf="tipo=='LONG_ROUTE'">Total</th>
+												<th class="font-bold noPrint" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;"></th>															
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let item of listRegister let i = index;">
+												<td data-title="#" class="font-regular"  style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+													&nbsp;{{i+1}}
+												</td>
+												<td data-title="Línea" class="font-regular" *ngIf="line_name!=null" style="text-align:left;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+													&nbsp;{{line_code}} -{{line_name}}
+												</td>
+												<td data-title="Línea" *ngIf="line_name==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;" scope="row">
+													&nbsp;
+												</td>
+												<td data-title="Total de ventas" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row">
+													&nbsp;<label class="font-regular" style="font-size:13px;" *ngIf="item.formatted_sum!=null" >{{item.formatted_sum}}&nbsp;</label><br>
+													&nbsp;<label class="font-regular" style="font-size:13px;" *ngIf="item.formatted_usd_sum!=null" >{{item.formatted_usd_sum}}&nbsp;</label> 
+												</td>
+												<td data-title="Viaje" class="font-regular" *ngIf="item.trip_sequence!=null" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;" scope="row">
+													&nbsp;<label class="font-regular" style="font-size:13px;">{{item.trip_sequence}}&nbsp;</label> 
+												</td>
+												<td data-title="Viaje" *ngIf="item.trip_sequence==null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;" scope="row">
+													&nbsp;
+												</td>
+												<td data-title="Boletos" class="font-regular" *ngIf="item.passenger_count!=null && tipo=='LONG_ROUTE'" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;" scope="row">
+													&nbsp;<label class="font-regular" style="font-size:13px;">{{item.passenger_count}}&nbsp;</label> 
+												</td>
+												<td data-title="Boletos" *ngIf="item.passenger_count==null && tipo=='LONG_ROUTE'" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;" scope="row">
+													&nbsp;
+												</td>
+												<td data-title="Tasa terminal" class="font-regular"  style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row" *ngIf="tipo=='LONG_ROUTE'">
+													&nbsp;<label *ngIf="item.formatted_porcentaje_6!=null" class="font-regular" style="font-size:13px;">{{item.formatted_porcentaje_6}}&nbsp;</label> <br>
+													&nbsp;<label *ngIf="item.formatted_usd_porcentaje_6!=null" class="font-regular" style="font-size:13px;">{{item.formatted_usd_porcentaje_6}}&nbsp;</label> 
+
+												</td>
+												<td data-title="IVA"  class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row" *ngIf="tipo=='LONG_ROUTE'">
+													0,00
+												</td>
+												<td data-title="Tasa usuario" class="font-regular"  style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row" *ngIf="tipo=='LONG_ROUTE'">
+													&nbsp;<label *ngIf="item.formatted_porcentaje_6!=null" class="font-regular" style="font-size:13px;">{{item.formatted_porcentaje_6}}&nbsp;</label> <br>
+													&nbsp;<label *ngIf="item.formatted_usd_porcentaje_6!=null" class="font-regular" style="font-size:13px;">{{item.formatted_usd_porcentaje_6}}&nbsp;</label> 
+
+												</td>
+												<td data-title="IVA"  class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row" *ngIf="tipo=='LONG_ROUTE'">
+													0,00
+												</td>
+												<td data-title="Total" class="font-regular" style="text-align:right;padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;" scope="row" *ngIf="tipo=='LONG_ROUTE'">
+													&nbsp;<label *ngIf="item.formatted_porcentaje!=null" class="font-regular" style="font-size:13px;">{{item.formatted_porcentaje}}</label> <br>
+													&nbsp;<label *ngIf="item.formatted_usd_porcentaje!=null" class="font-regular" style="font-size:13px;">{{item.formatted_usd_porcentaje}}</label> 
+												</td>
+												<td class="noPrint" style="text-align:right">
+													<button type="button" class="btn btn-dark" (click)="redirect(item)"><img src="assets/images/ver.svg" height="24px"></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<h6 style="text-align:right;margin-top:10px;" class="font-regular" *ngIf="monto_total!=null"><b class="font-bold">Total en ventas Bs:&nbsp;</b>{{monto_total}}</h6>
+								<h6 style="text-align:right;margin-top:10px;" class="font-regular" *ngIf="monto_total_us!=null"><b class="font-bold">Total en ventas $:&nbsp;</b>{{monto_total_us}}</h6>
+								<h6 style="text-align:right;" class="font-regular" *ngIf="porcentaje_total!=null && tipo=='LONG_ROUTE'"><b class="font-bold">Total Tasa terminal y Usuario Bs:&nbsp;</b>{{porcentaje_total}}</h6>
+								<h6 style="text-align:right;" class="font-regular" *ngIf="porcentaje_total_us!=null && tipo=='LONG_ROUTE'"><b class="font-bold">Total Tasa terminal y Usuario $:&nbsp;</b>{{porcentaje_total_us}}</h6>
+								<div style="margin-top:20px;">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12"  style="text-align:left;">
+											<h6 class="font-regular" style="color:#9e9e9e;">INTRAC</h6>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-12"  style="text-align:right;">
+											<h6 class="font-regular" style="color:#9e9e9e;">Recibí conforme</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+								<h3 class="font-bold" style="color:#d0d6e2;">No hay registros</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

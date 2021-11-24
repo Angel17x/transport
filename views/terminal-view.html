@@ -1,0 +1,52 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row" style="margin-top:15px;margin-bottom:10px;">
+    		<div class="col-lg-6 col-md-6 col-sm-6 col-6" style="text-align:left;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<form id="form-terminal-view" style="margin-top:15px;">
+			<div class="row d-flex">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-stretch">
+					<div class="card w-100">
+						<div class="card-body">
+							<h5 class="card-title text-center" *ngIf="name!=null">{{name}}</h5>
+							<p class="card-text">
+									<label *ngIf="name!=null"><b class="font-bold">Nombre:&nbsp;</b>{{name}}</label><br *ngIf="name!=null">
+									<label *ngIf="id_doc!=null"><b class="font-bold">RIF/PA:&nbsp;</b>{{id_doc}}</label><br *ngIf="id_doc!=null">
+									<label *ngIf="phone!=null"><b class="font-bold">Telefono:&nbsp;</b>{{phone}}</label><br *ngIf="phone!=null">
+									<label *ngIf="country!=null"><b class="font-bold">Pais:&nbsp;</b>{{country}}</label><br *ngIf="country!=null">
+									<label *ngIf="state!=null"><b class="font-bold">Estado:&nbsp;</b>{{state}}</label><br *ngIf="state!=null">
+									<label *ngIf="address!=null"><b class="font-bold">Direccion:&nbsp;</b>{{address}}</label><br *ngIf="address!=null">
+									<label *ngIf="stop!=null"><b class="font-bold">Parada:&nbsp;</b>{{stop}}</label><br *ngIf="stop!=null">
+									<label *ngIf="city!=null"><b class="font-bold">Ciudad:&nbsp;</b>{{city}}</label><br *ngIf="city!=null">
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12 d-flex align-items-stretch">
+					<div class="card w-100">
+						<div class="card-body d-flex align-items-end flex-row-reverse">
+							<p class="card-text" >
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="creado_por!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Creado por:&nbsp;</b>{{creado_por}}</label><br *ngIf="creado_por!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="creado_el!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Creado el:&nbsp;</b>{{creado_el}}</label><br *ngIf="creado_el!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="actualizado_por!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Actualizado por:&nbsp;</b>{{actualizado_por}}</label><br *ngIf="actualizado_por!=null">
+								<label style="font-size:12px;color:#90a4ae;" *ngIf="actualizado_el!=null"><b class="font-bold" style="font-size:12px;color:#90a4ae;">Actualizado el:&nbsp;</b>{{actualizado_el}}</label><br *ngIf="actualizado_el!=null">
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div  class="row noPrint" style="margin-top:20px;">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-12" style="text-align:right;">
+					<button type="button" class="btn btn-light btn-lg" style="border:1px solid #e0e0e0;margin:10px;font-size:14px;" (click)="back()">Regresar</button>
+					<button class="btn button-done btn-lg" style="margin:10px;font-size:14px;" (click)="print()">Imprimir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</main>

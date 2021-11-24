@@ -1,0 +1,128 @@
+<nav-bar></nav-bar>
+<main style="margin:4%;padding:2%;margin-top:0px;">
+	<div class="container-fluid" style="width:100%;">
+		<loading-service></loading-service>  
+		<msg-component [mensaje]="mensaje" (valueChanged)="getValueMsg($event)"></msg-component> 
+		<div  class="row"  style="margin-top:25px;margin-bottom:10px;">
+    		<div class="col-lg-8 offset-lg-2 offset-md-2 col-md-8 col-sm-12 col-12" style="text-align:center;">
+				<h4 class="font-bold d-none d-sm-inline-block" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h4>
+				<h6 class="font-bold d-sm-none" style="margin-bottom:0px;padding-bottom:0px;margin-top:0px;">{{title}}</h6>
+			</div>
+		</div>
+		<div class="row" style="margin-top:15px;">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-12">
+				<form style="border:1px solid #ccc; background:#F5F5F5;padding:5px;">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="date" class="form-control filtro-busqueda" id="fecha" name="fecha" [(ngModel)]="fecha">
+								<label for="fecha">Fecha de viaje</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="reservacion" name="reservacion" [(ngModel)]="reservacion" maxlength="30" style="text-transform:uppercase;">
+								<label for="reservacion">Reservación</label>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 col-12" style="margin-top:5px;text-align:left;">
+							<div class="form-floating" style="margin-top:5px;">
+								<input type="text" class="form-control filtro-busqueda" id="doc" name="doc" [(ngModel)]="doc" maxlength="12" style="text-transform:uppercase;">
+								<label for="doc">RIF/CI</label>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-6 col-12" style="text-align:right;margin-top:5px;">
+							<button type="button" class="btn btn-outline-dark btn-lg" style="margin:10px;font-size:14px;" (click)="clean()">Limpiar</button>
+							<button class="btn btn btn-outline-warning btn-lg" style="margin:10px;font-size:14px;" (click)="search()">Buscar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="listRegister!=null && listRegister.length!=0">
+				<div class="table-responsive-vertical shadow-z-1 " style="width:100%;margin-top:15px;">
+					<table id="table-check" class="table table-hover table-mc-light-blue">
+						<thead>
+							<tr>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">#</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">RESERVA</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:center;">RIF/CI</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">NOMBRE</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;">DESTINO</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">TIPO DE PASAJERO</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;">ESTATUS</th>
+								<th class="font-bold" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:13px;text-align:right;"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of listRegister let i = index;">
+								<td data-title="#" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;" scope="row">
+									&nbsp;{{((pageSelected-1)*detallePorPagina)+(i+1)}}
+								</td>
+								<td data-title="RESERVA" *ngIf="item.reservation_sequence!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+									&nbsp;{{item.reservation_sequence}}
+								</td>
+								<td data-title="RESERVA" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.reservation_sequence==null">
+													 
+								</td>
+								<td data-title="RIF/CI" *ngIf="item.id_doc!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row">
+									&nbsp;{{item.id_doc}}
+								</td>
+								<td data-title="RIF/CI" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.id_doc==null">
+													 
+								</td>
+								<td data-title="NOMBRE" *ngIf="item.name!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;" scope="row">
+									&nbsp;{{item.name}}
+								</td>
+								<td data-title="NOMBRE" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;" scope="row" *ngIf="item.name==null">
+													 
+								</td>
+								<td data-title="DESTINO" *ngIf="item.destination_stop_code!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:left;" scope="row">
+									&nbsp;{{item.destination_stop_code}} - {{item.destination_stop_name}}
+								</td>
+								<td data-title="DESTINO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.destination_stop_code==null">
+													 
+								</td>
+								<td data-title="TIPO" *ngIf="item.formatted_type!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+									&nbsp;{{item.formatted_type}}
+								</td>
+								<td data-title="TIPO" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.formatted_type==null">
+													 
+								</td>
+								<td data-title="ESTATUS" *ngIf="item.formatted_status!=null" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+									&nbsp;{{item.formatted_status}}
+								</td>
+								<td data-title="ESTATUS" class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:center;" scope="row" *ngIf="item.formatted_status==null">
+													 
+								</td>	
+								<td data-title="AC." class="font-regular" style="padding-top:10px;padding-bottom:10px;word-wrap: break-word;font-size:12px;text-align:right;" scope="row">
+									<button *ngIf="item.status=='PRE_BOARDING'" type="button" class="btn btn-success font-regular" (click)="changeStatus(item,'BOARDING')">Abordar</button>
+									<button *ngIf="item.status=='BOARDING'" type="button" class="btn btn-warning font-regular" (click)="changeStatus(item,'OUT_INSIDE')">Retiro en instalaciones</button>
+									<button *ngIf="item.status=='BOARDING'" type="button" class="btn btn-danger font-regular" (click)="changeStatus(item,'OUT_OUTSIDE')">Retiro afuera</button>
+								</td>								
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<custom-table 
+					[size]="pagingActual.count" 
+					[labelSize]="'Total'"
+					[alignSize]="'alignRight'" 
+					[totalPage]="detallePorPagina"
+					[totalPageRecords]="totalPage" 
+					[pageSelected]="pageSelected"
+					(cantidadTransaccionesTabla)="getCantidadSelected($event)"
+					(valueFirst)="getValueFirst($event)" 
+					(valuePrevious)="getValuePrevious($event)"
+					(valueNext)="getValueNext($event)" 
+					(valueLast)="getValueLast($event)"
+					(valueChangeRecords)="getValueChangeRecords($event)">
+				</custom-table>
+			</div>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center;padding-top:45px;vertical-align:middle;" *ngIf="listRegister==null || listRegister.length==0">
+				<h3 class="font-bold" style="color:#d0d6e2;">No hay registros</h3>
+			</div>
+		</div>
+	</div>
+</main>
